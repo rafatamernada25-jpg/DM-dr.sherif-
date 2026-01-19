@@ -1,0 +1,1608 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Development Target Skills</title>
+  <style>
+    /* Global Styles */
+    :root {
+      --primary-blue: #3b82f6;
+      --primary-purple: #7c3aed;
+      --accent-green: #10b981;
+      --dark-bg: #030712;
+      --card-bg: rgba(255, 255, 255, 0.06);
+      --border-light: rgba(255, 255, 255, 0.15);
+      --text-primary: #e5e7eb;
+      --text-secondary: #cbd5e1;
+    }
+
+    /* Light Theme Variables */
+    .light-theme {
+      --dark-bg: #f8fafc;
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --border-light: rgba(30, 41, 59, 0.1);
+      --text-primary: #1e293b;
+      --text-secondary: #475569;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      background: radial-gradient(ellipse at top, var(--dark-bg), #020617);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      min-height: 100vh;
+      transition: background 0.3s ease;
+    }
+
+    .light-theme body {
+      background: radial-gradient(ellipse at top, var(--dark-bg), #e2e8f0);
+    }
+
+    /* Language & Theme Controls */
+    .controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1001;
+      display: flex;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 25px;
+      padding: 5px;
+    }
+
+    .light-theme .controls {
+      background: rgba(30, 41, 59, 0.1);
+      border: 1px solid rgba(30, 41, 59, 0.2);
+    }
+
+    .control-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .control-btn.active {
+      background: linear-gradient(135deg, #3b82f6, #7c3aed);
+      color: white;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .control-btn:hover:not(.active) {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .light-theme .control-btn:hover:not(.active) {
+      background: rgba(30, 41, 59, 0.1);
+    }
+
+    /* AI Assistant */
+    .ai-assistant {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 1000;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #3b82f6, #7c3aed);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .ai-assistant:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 12px 40px rgba(59, 130, 246, 0.6);
+    }
+
+    .ai-assistant i {
+      font-size: 1.5rem;
+      color: white;
+    }
+
+    .ai-panel {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      width: 400px;
+      max-height: 500px;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 0;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+      transition: all 0.4s ease;
+      display: none;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+
+    .light-theme .ai-panel {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(30, 41, 59, 0.1);
+    }
+
+    .ai-panel.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ai-header {
+      padding: 20px;
+      background: linear-gradient(135deg, #3b82f6, #7c3aed);
+      color: white;
+    }
+
+    .ai-header h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ai-content {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      max-height: 380px;
+    }
+
+    .ai-message {
+      background: rgba(59, 130, 246, 0.1);
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+      animation: slideIn 0.3s ease;
+      border-left: 3px solid #3b82f6;
+    }
+
+    .light-theme .ai-message {
+      background: rgba(59, 130, 246, 0.05);
+    }
+
+    .ai-message h4 {
+      margin: 0 0 10px 0;
+      color: #60a5fa;
+      font-size: 1rem;
+    }
+
+    .ai-message p {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .ai-example {
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 3px solid #10b981;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .light-theme .ai-example {
+      background: rgba(16, 185, 129, 0.05);
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Skills Container */
+    .skills-container {
+      width: 80%;
+      margin: 60px auto 80px;
+      max-width: 1200px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Page Header */
+    .page-header {
+      text-align: center;
+      padding: 100px 20px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .page-header h1 {
+      font-size: 3.5rem;
+      margin: 0;
+      background: linear-gradient(90deg, #60a5fa, #a78bfa, #10b981);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .page-header h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 25%;
+      width: 50%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+    }
+    
+    /* Skill Cards */
+    .skill-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      padding: 35px;
+      margin-bottom: 40px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .skill-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+      transform: scaleX(0);
+      transition: transform 0.6s ease;
+    }
+
+    .skill-card:hover::before {
+      transform: scaleX(1);
+    }
+    
+    .skill-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(59, 130, 246, 0.3);
+      border-color: #3b82f6;
+    }
+    
+    .skill-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #3b82f6, #7c3aed);
+      color: white;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      font-weight: bold;
+      margin-right: 20px;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .skill-card:hover .skill-number {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+    }
+    
+    .skill-title {
+      color: var(--text-primary);
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+      padding-bottom: 15px;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+    }
+    
+    .skill-content {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-size: 1.1rem;
+      position: relative;
+    }
+    
+    .skill-content strong {
+      color: #60a5fa;
+      position: relative;
+      font-weight: 600;
+    }
+    
+    .skill-highlight {
+      background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), rgba(124, 58, 237, 0.1));
+      border-left: 4px solid #3b82f6;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 0 12px 12px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .light-theme .skill-highlight {
+      background: linear-gradient(90deg, rgba(59, 130, 246, 0.05), rgba(124, 58, 237, 0.05));
+    }
+
+    .skill-highlight::before {
+      content: '💡';
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      opacity: 0.2;
+      font-size: 1.5rem;
+    }
+    
+    .skill-content ul {
+      padding-left: 24px;
+      margin: 20px 0;
+    }
+    
+    .skill-content li {
+      margin-bottom: 12px;
+      position: relative;
+      padding-left: 10px;
+    }
+
+    .skill-content li::before {
+      content: '▶';
+      position: absolute;
+      left: -15px;
+      color: #3b82f6;
+      font-size: 0.8rem;
+      transition: transform 0.3s ease;
+    }
+
+    .skill-content li:hover::before {
+      transform: translateX(3px);
+    }
+
+    /* Learning Features */
+    .learning-features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin: 30px 0;
+    }
+
+    .feature-badge {
+      background: linear-gradient(135deg, #3b82f6, #7c3aed);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: default;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-badge:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Code Visualization */
+    .code-visualization {
+      background: rgba(30, 41, 59, 0.5);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 25px 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .light-theme .code-visualization {
+      background: rgba(241, 245, 249, 0.8);
+      border: 1px solid rgba(30, 41, 59, 0.1);
+    }
+
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .light-theme .code-header {
+      border-bottom: 1px solid rgba(30, 41, 59, 0.1);
+    }
+
+    .code-header h4 {
+      margin: 0;
+      color: #60a5fa;
+      font-size: 1rem;
+    }
+
+    .code-content {
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #94a3b8;
+      overflow-x: auto;
+    }
+
+    .code-keyword {
+      color: #60a5fa;
+    }
+
+    .code-string {
+      color: #10b981;
+    }
+
+    .code-comment {
+      color: #64748b;
+    }
+
+    /* Progress Tracker */
+    .progress-tracker {
+      position: fixed;
+      left: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1000;
+    }
+
+    .progress-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .progress-dot.active {
+      background: #3b82f6;
+      transform: scale(1.2);
+    }
+
+    .progress-dot:hover {
+      transform: scale(1.3);
+    }
+
+    .progress-dot::after {
+      content: attr(data-skill);
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(15, 23, 42, 0.9);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .light-theme .progress-dot::after {
+      background: rgba(255, 255, 255, 0.9);
+      color: #1e293b;
+    }
+
+    .progress-dot:hover::after {
+      opacity: 1;
+    }
+
+    /* Knowledge Check */
+    .knowledge-check {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1));
+      border-radius: 12px;
+      padding: 20px;
+      margin: 25px 0;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .knowledge-check h4 {
+      margin: 0 0 15px 0;
+      color: #10b981;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .quiz-option {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 12px 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .light-theme .quiz-option {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(30, 41, 59, 0.1);
+    }
+
+    .quiz-option:hover {
+      background: rgba(59, 130, 246, 0.1);
+      border-color: #3b82f6;
+    }
+
+    .quiz-option.correct {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: #10b981;
+    }
+
+    .quiz-option.incorrect {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+    }
+
+    /* Footer */
+    .page-footer {
+      padding: 40px;
+      text-align: center;
+      background: rgba(2, 6, 23, 0.95);
+      color: #94a3b8;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin-top: 60px;
+      position: relative;
+      backdrop-filter: blur(10px);
+    }
+
+    .light-theme .page-footer {
+      background: rgba(248, 250, 252, 0.95);
+      border-top: 1px solid rgba(30, 41, 59, 0.1);
+    }
+
+    .page-footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .skills-container {
+        width: 90%;
+        margin: 40px auto 60px;
+      }
+      
+      .page-header {
+        padding: 80px 20px 40px;
+      }
+      
+      .page-header h1 {
+        font-size: 2.2rem;
+      }
+      
+      .skill-title {
+        font-size: 1.4rem;
+      }
+      
+      .skill-content {
+        font-size: 1rem;
+      }
+      
+      .skill-card {
+        padding: 25px;
+      }
+
+      .ai-panel {
+        width: calc(100% - 40px);
+        right: 20px;
+        left: 20px;
+        bottom: 90px;
+      }
+
+      .controls {
+        top: 10px;
+        right: 10px;
+      }
+
+      .progress-tracker {
+        display: none;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+   <nav class="navbar">
+        <a href="year1sem22.html" style="color: white; text-decoration: none; font-weight: 800; letter-spacing: 1px;">← EXIT LESSON</a>
+    </nav>
+
+<!-- Controls -->
+<div class="controls">
+  <button class="control-btn active" data-lang="en">
+    <i class="fas fa-language"></i> EN
+  </button>
+  <button class="control-btn" data-lang="fr">
+    <i class="fas fa-language"></i> FR
+  </button>
+  <button class="control-btn" id="themeToggle">
+    <i class="fas fa-moon"></i> Dark
+  </button>
+</div>
+
+<!-- Progress Tracker -->
+<div class="progress-tracker" id="progressTracker">
+  <div class="progress-dot" data-skill="1" data-target="skill1"></div>
+  <div class="progress-dot" data-skill="2" data-target="skill2"></div>
+  <div class="progress-dot" data-skill="3" data-target="skill3"></div>
+  <div class="progress-dot" data-skill="4" data-target="skill4"></div>
+  <div class="progress-dot" data-skill="5" data-target="skill5"></div>
+  <div class="progress-dot" data-skill="6" data-target="skill6"></div>
+  <div class="progress-dot" data-skill="7" data-target="skill7"></div>
+  <div class="progress-dot" data-skill="8" data-target="skill8"></div>
+  <div class="progress-dot" data-skill="9" data-target="skill9"></div>
+</div>
+
+<!-- AI Assistant -->
+<button class="ai-assistant" id="aiAssistant">
+  <i class="fas fa-robot"></i>
+</button>
+
+<div class="ai-panel" id="aiPanel">
+  <div class="ai-header">
+    <h3><i class="fas fa-robot"></i> Learning Assistant</h3>
+  </div>
+  <div class="ai-content" id="aiContent">
+    <!-- AI messages will be inserted here -->
+  </div>
+</div>
+
+<!-- ========== HEADER ========== -->
+<header class="page-header">
+  <h1>Web Development Target Skills</h1>
+  <p style="margin-top: 20px; color: var(--text-secondary); font-size: 1.1rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+    Comprehensive skills for modern web application development and deployment
+  </p>
+  
+  <!-- Learning Features Badges -->
+  <div class="learning-features">
+    <div class="feature-badge">
+      <i class="fas fa-code"></i>
+    </div>
+    <div class="feature-badge">
+      <i class="fas fa-brain"></i>
+    </div>
+    <div class="feature-badge">
+      <i class="fas fa-language"></i>
+    </div>
+    <div class="feature-badge">
+      <i class="fas fa-moon"></i>
+    </div>
+    <div class="feature-badge">
+      <i class="fas fa-check-circle"></i>
+    </div>
+  </div>
+</header>
+
+<!-- ========== MAIN CONTENT ========== -->
+<main class="skills-container">
+  
+  <!-- Skill 1 -->
+  <div class="skill-card visible" id="skill1">
+    <div class="skill-title">
+      <span class="skill-number" data-skill="1">1</span>
+      <span class="skill-title-text" data-en="Design or Co-design a Relevant Strategic Response to a Complex Problem" data-fr="Concevoir ou co-concevoir une réponse stratégique pertinente à un problème complexe">Design or Co-design a Relevant Strategic Response to a Complex Problem</span>
+    </div>
+    <div class="skill-content">
+      <p>Designing or co-designing a strategic response to a complex problem requires a structured, user-centered, and collaborative approach. Complex problems are typically characterized by multiple stakeholders, uncertainty, evolving requirements, and interdependent factors such as technology, business constraints, and user needs. A relevant strategic response begins with <strong>problem understanding</strong>, which involves research, data analysis, and stakeholder interviews to clearly define the root causes rather than just symptoms.</p>
+      
+      <div class="skill-highlight">
+        Co-design emphasizes <strong>collaboration between designers, developers, users, and decision-makers</strong>. This approach ensures that solutions are realistic, inclusive, and aligned with real user expectations.
+      </div>
+      
+      <p>Strategic responses often use frameworks such as <strong>design thinking</strong>, <strong>systems thinking</strong>, and <strong>agile methodologies</strong> to prototype, test, and refine ideas iteratively. The final strategy should balance innovation, feasibility, scalability, and long-term sustainability while remaining adaptable to change.</p>
+      
+      <!-- Code Visualization -->
+      <div class="code-visualization">
+        <div class="code-header">
+          <h4><i class="fas fa-project-diagram"></i> Design Thinking Process</h4>
+        </div>
+        <div class="code-content">
+          <span class="code-comment">// 1. Empathize - Understand user needs</span><br>
+          <span class="code-comment">// 2. Define - Frame the problem</span><br>
+          <span class="code-comment">// 3. Ideate - Generate solutions</span><br>
+          <span class="code-comment">// 4. Prototype - Build representations</span><br>
+          <span class="code-comment">// 5. Test - Validate with users</span><br><br>
+          <span class="code-keyword">function</span> <span class="code-keyword">designThinkingProcess</span>() {<br>
+          &nbsp;&nbsp;<span class="code-keyword">return</span> <span class="code-string">"Iterative, user-centered approach"</span>;<br>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Skill 2 -->
+  <div class="skill-card" id="skill2">
+    <div class="skill-title">
+      <span class="skill-number" data-skill="2">2</span>
+      <span class="skill-title-text" data-en="Entrepreneurship in the Digital Sector: Objectives and Professional Issues" data-fr="Entrepreneuriat dans le secteur numérique : Objectifs et enjeux professionnels">Entrepreneurship in the Digital Sector: Objectives and Professional Issues</span>
+    </div>
+    <div class="skill-content">
+      <p>Entrepreneurship in the digital sector focuses on creating value through technology-driven products and services such as web platforms, mobile applications, SaaS solutions, and digital marketplaces. The primary objectives include <strong>innovation, market competitiveness, scalability</strong>, and <strong>customer-centric value creation</strong>. Digital entrepreneurs aim to leverage emerging technologies to solve real-world problems more efficiently than traditional models.</p>
+      
+      <div class="skill-highlight">
+        However, this sector also presents professional issues, including <strong>rapid technological change</strong>, <strong>cybersecurity risks</strong>, <strong>intellectual property protection</strong>, and <strong>ethical responsibilities</strong> such as data privacy and algorithmic transparency.
+      </div>
+      
+      <p>Entrepreneurs must also manage challenges related to funding, regulatory compliance across countries, talent acquisition, and maintaining sustainable business models. Success in the digital sector requires both technical competence and strong strategic, managerial, and ethical awareness.</p>
+      
+      <!-- Knowledge Check -->
+      <div class="knowledge-check">
+        <h4><i class="fas fa-question-circle"></i> Quick Knowledge Check</h4>
+        <p>Which is NOT a primary objective of digital entrepreneurship?</p>
+        <div class="quiz-options">
+          <div class="quiz-option" data-correct="false">Innovation</div>
+          <div class="quiz-option" data-correct="false">Market competitiveness</div>
+          <div class="quiz-option" data-correct="true">Profit maximization at all costs</div>
+          <div class="quiz-option" data-correct="false">Customer-centric value creation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Skill 3 -->
+  <div class="skill-card" id="skill3">
+    <div class="skill-title">
+      <span class="skill-number" data-skill="3">3</span>
+      <span class="skill-title-text" data-en="Implement and Combine Associate Skills with SAE (Understanding, Designing, Developing, Interacting) to Develop a Web Application in an International Context" data-fr="Implémenter et combiner les compétences associées avec SAE (Comprendre, Concevoir, Développer, Interagir) pour développer une application web dans un contexte international">Implement and Combine Associate Skills with SAE (Understanding, Designing, Developing, Interacting) to Develop a Web Application in an International Context</span>
+    </div>
+    <div class="skill-content">
+      <p>The SAE framework (Understanding, Designing, Developing, Interacting) provides a holistic approach to web application development.</p>
+      
+      <ul>
+        <li><strong>Understanding</strong> involves analyzing user needs, business objectives, cultural differences, and legal constraints in an international context.</li>
+        <li><strong>Designing</strong> translates insights into system architecture, user journeys, wireframes, and interface designs that are culturally adaptable and accessible.</li>
+        <li><strong>Developing</strong> focuses on implementing the technical solution using appropriate programming languages, frameworks, APIs, and databases.</li>
+        <li><strong>Interacting</strong> ensures effective communication between users and the system through intuitive interfaces and meaningful feedback.</li>
+      </ul>
+      
+      <p>Combining these stages with associate skills such as teamwork, problem-solving, communication, and project management enables the creation of robust web applications that work effectively across different markets, languages, and user expectations.</p>
+      
+      <!-- Code Visualization -->
+      <div class="code-visualization">
+        <div class="code-header">
+          <h4><i class="fas fa-globe"></i> Internationalization Example</h4>
+        </div>
+        <div class="code-content">
+          <span class="code-comment">// Supporting multiple languages</span><br>
+          <span class="code-keyword">const</span> translations = {<br>
+          &nbsp;&nbsp;en: { <span class="code-string">welcome</span>: <span class="code-string">"Welcome"</span>, <span class="code-string">submit</span>: <span class="code-string">"Submit"</span> },<br>
+          &nbsp;&nbsp;fr: { <span class="code-string">welcome</span>: <span class="code-string">"Bienvenue"</span>, <span class="code-string">submit</span>: <span class="code-string">"Soumettre"</span> },<br>
+          &nbsp;&nbsp;es: { <span class="code-string">welcome</span>: <span class="code-string">"Bienvenido"</span>, <span class="code-string">submit</span>: <span class="code-string">"Enviar"</span> }<br>
+          };<br><br>
+          <span class="code-keyword">function</span> <span class="code-keyword">getText</span>(key, language = <span class="code-string">'en'</span>) {<br>
+          &nbsp;&nbsp;<span class="code-keyword">return</span> translations[language][key];<br>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Skill 4 -->
+  <div class="skill-card" id="skill4">
+    <div class="skill-title">
+      <span class="skill-number" data-skill="4">4</span>
+      <span class="skill-title-text" data-en="Developing a Web Application or Service with a High-Quality User Experience" data-fr="Développer une application ou un service web avec une expérience utilisateur de haute qualité">Developing a Web Application or Service with a High-Quality User Experience</span>
+    </div>
+    <div class="skill-content">
+      <p>A high-quality user experience (UX) is essential for user satisfaction, engagement, and retention. UX development starts with <strong>user research</strong>, including personas, user journeys, and usability testing. Key UX principles include simplicity, consistency, accessibility, responsiveness, and clarity.</p>
+      
+      <div class="skill-highlight">
+        A strong UX design ensures that users can complete tasks efficiently with minimal cognitive effort. This involves optimizing navigation, reducing loading times, providing clear feedback, and designing for multiple devices and screen sizes.
+      </div>
+      
+      <p>Continuous user testing and data-driven improvements play a critical role in refining the experience over time, ensuring the application remains aligned with evolving user needs.</p>
+      
+      <!-- Code Visualization -->
+      <div class="code-visualization">
+        <div class="code-header">
+          <h4><i class="fas fa-user-check"></i> User-Centered Design</h4>
+        </div>
+        <div class="code-content">
+          <span class="code-comment">// Accessibility considerations</span><br>
+          <span class="code-keyword">const</span> accessibilityFeatures = {<br>
+          &nbsp;&nbsp;altText: <span class="code-keyword">true</span>,<br>
+          &nbsp;&nbsp;keyboardNavigation: <span class="code-keyword">true</span>,<br>
+          &nbsp;&nbsp;screenReaderSupport: <span class="code-keyword">true</span>,<br>
+          &nbsp;&nbsp;colorContrast: <span class="code-string">"4.5:1 minimum"</span>,<br>
+          &nbsp;&nbsp;focusIndicators: <span class="code-keyword">true</span><br>
+          };<br><br>
+          <span class="code-comment">// Responsive breakpoints</span><br>
+          <span class="code-keyword">const</span> breakpoints = {<br>
+          &nbsp;&nbsp;mobile: <span class="code-string">'320px'</span>,<br>
+          &nbsp;&nbsp;tablet: <span class="code-string">'768px'</span>,<br>
+          &nbsp;&nbsp;desktop: <span class="code-string">'1024px'</span><br>
+          };
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Skill 5 -->
+  <div class="skill-card" id="skill5">
+    <div class="skill-title">
+      <span class="skill-number" data-skill="5">5</span>
+      <span class="skill-title-text" data-en="Develop a Web Application or Service" data-fr="Développer une application ou un service web">Develop a Web Application or Service</span>
+    </div>
+    <div class="skill-content">
+      <p>Developing a web application or service is a multi-phase process that includes planning, design, development, testing, deployment, and maintenance. It begins with defining functional and non-functional requirements, followed by selecting appropriate technologies and architectural patterns.</p>
+      
+      <div class="skill-highlight">
+        The development phase involves writing clean, modular, and scalable code while integrating third-party services when needed. Testing ensures reliability, performance, and security before deployment.
+      </div>
+      
+      <p>After launch, continuous monitoring, updates, and user feedback integration are necessary to maintain relevance and quality.</p>
+      
+      <!-- Knowledge Check -->
+      <div class="knowledge-check">
+        <h4><i class="fas fa-question-circle"></i> Development Process</h4>
+        <p>Which phase comes immediately after development in the web application lifecycle?</p>
+        <div class="quiz-options">
+          <div class="quiz-option" data-correct="true">Testing</div>
+          <div class="quiz-option" data-correct="false">Planning</div>
+          <div class="quiz-option" data-correct="false">Design</div>
+          <div class="quiz-option" data-correct="false">Maintenance</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Skill 6 -->
+  <div class="skill-card" id="skill6">
+    <div class="skill-title">
+      <span class="skill-number" data-skill="6">6</span>
+      <span class="skill-title-text" data-en="Design and Develop a Web Application or Service Using Server-Side and Client-Side Development Tools" data-fr="Concevoir et développer une application ou un service web en utilisant des outils de développement côté serveur et côté client">Design and Develop a Web Application or Service Using Server-Side and Client-Side Development Tools</span>
+    </div>
+    <div class="skill-content">
+      <p>Modern web applications rely on a clear separation between <strong>client-side</strong> and <strong>server-side</strong> development.</p>
+      
+      <ul>
+        <li><strong>Client-side tools</strong> (such as HTML, CSS, JavaScript, and frameworks like React or Vue) focus on user interface, interactivity, and responsiveness.</li>
+        <li><strong>Server-side tools</strong> (such as Node.js, PHP, Python, or Java) manage business logic, databases, authentication, and data processing.</li>
+      </ul>
+      
+      <p>This architecture enables better scalability, maintainability, and performance. APIs are often used to allow seamless communication between the front-end and back-end, supporting modular development and easier integration with external systems.</p>
+      
+      <!-- Code Visualization -->
+      <div class="code-visualization">
+        <div class="code-header">
+          <h4><i class="fas fa-exchange-alt"></i> API Communication</h4>
+        </div>
+        <div class="code-content">
+          <span class="code-comment">// Client-side API call</span><br>
+          <span class="code-keyword">async function</span> <span class="code-keyword">fetchUserData</span>() {<br>
+          &nbsp;&nbsp;<span class="code-keyword">try</span> {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">const</span> response = <span class="code-keyword">await</span> fetch(<span class="code-string">'/api/users'</span>);<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">const</span> data = <span class="code-keyword">await</span> response.<span class="code-keyword">json</span>();<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> data;<br>
+          &nbsp;&nbsp;} <span class="code-keyword">catch</span> (error) {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;console.<span class="code-keyword">error</span>(<span class="code-string">'Error fetching data:'</span>, error);<br>
+          &nbsp;&nbsp;}<br>
+          }<br><br>
+          <span class="code-comment">// Server-side endpoint</span><br>
+          <span class="code-keyword">app</span>.<span class="code-keyword">get</span>(<span class="code-string">'/api/users'</span>, <span class="code-keyword">async</span> (req, res) => {<br>
+          &nbsp;&nbsp;<span class="code-keyword">const</span> users = <span class="code-keyword">await</span> User.<span class="code-keyword">findAll</span>();<br>
+          &nbsp;&nbsp;res.<span class="code-keyword">json</span>(users);<br>
+          });
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Skill 7 -->
+  <div class="skill-card" id="skill7">
+    <div class="skill-title">
+      <span class="skill-number" data-skill="7">7</span>
+      <span class="skill-title-text" data-en="Set Up a Back Office for Data Manipulation and Processing with a Rich Client Interface" data-fr="Mettre en place un back office pour la manipulation et le traitement des données avec une interface client riche">Set Up a Back Office for Data Manipulation and Processing with a Rich Client Interface</span>
+    </div>
+    <div class="skill-content">
+      <p>A back office is a critical component for managing application data, users, and system operations. It allows administrators to create, read, update, and delete data efficiently while ensuring data integrity and consistency. The back office should support reporting, analytics, and automation of routine processes.</p>
+      
+      <div class="skill-highlight">
+        A rich client interface enhances productivity by providing dashboards, filters, real-time updates, and visual data representations. Role-based access control ensures that different users have appropriate permissions, reducing risks and improving operational efficiency.
+      </div>
+      
+      <!-- Code Visualization -->
+      <div class="code-visualization">
+        <div class="code-header">
+          <h4><i class="fas fa-tachometer-alt"></i> Admin Dashboard Example</h4>
+        </div>
+        <div class="code-content">
+          <span class="code-comment">// Role-based access control</span><br>
+          <span class="code-keyword">const</span> userRoles = {<br>
+          &nbsp;&nbsp;admin: [<span class="code-string">'create'</span>, <span class="code-string">'read'</span>, <span class="code-string">'update'</span>, <span class="code-string">'delete'</span>, <span class="code-string">'manage_users'</span>],<br>
+          &nbsp;&nbsp;editor: [<span class="code-string">'create'</span>, <span class="code-string">'read'</span>, <span class="code-string">'update'</span>],<br>
+          &nbsp;&nbsp;viewer: [<span class="code-string">'read'</span>]<br>
+          };<br><br>
+          <span class="code-keyword">function</span> <span class="code-keyword">checkPermission</span>(user, action) {<br>
+          &nbsp;&nbsp;<span class="code-keyword">return</span> userRoles[user.role]?.<span class="code-keyword">includes</span>(action);<br>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Skill 8 -->
+  <div class="skill-card" id="skill8">
+    <div class="skill-title">
+      <span class="skill-number" data-skill="8">8</span>
+      <span class="skill-title-text" data-en="Design and Implement an Ergonomic User Experience for End-Users and Site Administrators" data-fr="Concevoir et mettre en œuvre une expérience utilisateur ergonomique pour les utilisateurs finaux et les administrateurs du site">Design and Implement an Ergonomic User Experience for End-Users and Site Administrators</span>
+    </div>
+    <div class="skill-content">
+      <p>Ergonomic UX design focuses on reducing effort, errors, and fatigue for both end-users and administrators.</p>
+      
+      <ul>
+        <li>For end-users, this means intuitive navigation, clear content hierarchy, and minimal steps to complete tasks.</li>
+        <li>For administrators, it involves efficient workflows, logical information organization, and powerful management tools.</li>
+      </ul>
+      
+      <div class="skill-highlight">
+        Consistency, accessibility standards (such as WCAG), and responsive design principles are essential. An ergonomic experience improves satisfaction, productivity, and long-term adoption of the system.
+      </div>
+      
+      <!-- Knowledge Check -->
+      <div class="knowledge-check">
+        <h4><i class="fas fa-question-circle"></i> Accessibility Standards</h4>
+        <p>Which standard provides guidelines for web accessibility?</p>
+        <div class="quiz-options">
+          <div class="quiz-option" data-correct="true">WCAG (Web Content Accessibility Guidelines)</div>
+          <div class="quiz-option" data-correct="false">HTTP (Hypertext Transfer Protocol)</div>
+          <div class="quiz-option" data-correct="false">REST (Representational State Transfer)</div>
+          <div class="quiz-option" data-correct="false">API (Application Programming Interface)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Skill 9 -->
+  <div class="skill-card" id="skill9">
+    <div class="skill-title">
+      <span class="skill-number" data-skill="9">9</span>
+      <span class="skill-title-text" data-en="Ensure the Security and Performance of the Application and Its Hosting" data-fr="Assurer la sécurité et les performances de l'application et de son hébergement">Ensure the Security and Performance of the Application and Its Hosting</span>
+    </div>
+    <div class="skill-content">
+      <p>Security and performance are fundamental to the success of any web application.</p>
+      
+      <p><strong>Security measures</strong> include secure authentication, encryption, protection against common attacks (such as SQL injection and XSS), regular updates, and compliance with data protection regulations.</p>
+      
+      <div class="skill-highlight">
+        <strong>Performance optimization</strong> involves efficient code, caching strategies, optimized databases, and scalable hosting solutions.
+      </div>
+      
+      <p>Reliable hosting infrastructure, monitoring tools, and backup systems ensure high availability and resilience. Together, strong security and performance practices protect user trust, maintain system stability, and support future growth.</p>
+      
+      <!-- Code Visualization -->
+      <div class="code-visualization">
+        <div class="code-header">
+          <h4><i class="fas fa-shield-alt"></i> Security Implementation</h4>
+        </div>
+        <div class="code-content">
+          <span class="code-comment">// Secure password hashing</span><br>
+          <span class="code-keyword">const</span> bcrypt = <span class="code-keyword">require</span>(<span class="code-string">'bcrypt'</span>);<br><br>
+          <span class="code-keyword">async function</span> <span class="code-keyword">hashPassword</span>(password) {<br>
+          &nbsp;&nbsp;<span class="code-keyword">const</span> saltRounds = 10;<br>
+          &nbsp;&nbsp;<span class="code-keyword">return await</span> bcrypt.<span class="code-keyword">hash</span>(password, saltRounds);<br>
+          }<br><br>
+          <span class="code-comment">// SQL injection prevention</span><br>
+          <span class="code-keyword">app</span>.<span class="code-keyword">get</span>(<span class="code-string">'/api/users'</span>, <span class="code-keyword">async</span> (req, res) => {<br>
+          &nbsp;&nbsp;<span class="code-comment">// Use parameterized queries</span><br>
+          &nbsp;&nbsp;<span class="code-keyword">const</span> users = <span class="code-keyword">await</span> db.<span class="code-keyword">query</span>(<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">'SELECT * FROM users WHERE id = ?'</span>,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;[req.query.id]<br>
+          &nbsp;&nbsp;);<br>
+          &nbsp;&nbsp;res.<span class="code-keyword">json</span>(users);<br>
+          });
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ========== FOOTER ========== -->
+<footer class="page-footer">
+  <div style="max-width: 600px; margin: 0 auto;">
+    <h3 style="color: var(--text-primary); margin-bottom: 20px;">Web Development Target Skills</h3>
+    <p style="margin-bottom: 20px; color: var(--text-secondary);">Comprehensive skills for modern web application development and deployment across nine critical areas.</p>
+    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 30px;">
+      <i class="fab fa-html5" style="font-size: 1.5rem; color: var(--text-secondary);"></i>
+      <i class="fab fa-css3-alt" style="font-size: 1.5rem; color: var(--text-secondary);"></i>
+      <i class="fab fa-js" style="font-size: 1.5rem; color: var(--text-secondary);"></i>
+      <i class="fas fa-database" style="font-size: 1.5rem; color: var(--text-secondary);"></i>
+      <i class="fas fa-shield-alt" style="font-size: 1.5rem; color: var(--text-secondary);"></i>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ========== IMPLEMENTATION 1: LANGUAGE SWITCHING ==========
+  let currentLanguage = 'en';
+  
+  function setupLanguageSwitching() {
+    const languageButtons = document.querySelectorAll('[data-lang]');
+    
+    languageButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const lang = button.getAttribute('data-lang');
+        switchLanguage(lang);
+        
+        // Update active button
+        languageButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+      });
+    });
+  }
+  
+  function switchLanguage(lang) {
+    currentLanguage = lang;
+    
+    // Update all translatable elements
+    document.querySelectorAll('[data-en]').forEach(element => {
+      const text = element.getAttribute(`data-${lang}`);
+      if (text) element.textContent = text;
+    });
+    
+    // Update page title
+    if (lang === 'fr') {
+      document.title = 'Compétences Ciblées en Développement Web';
+      document.querySelector('.page-header h1').textContent = 'Compétences Ciblées en Développement Web';
+      document.querySelector('.page-header p').textContent = 'Compétences complètes pour le développement et le déploiement d\'applications web modernes';
+      document.querySelector('.page-footer h3').textContent = 'Compétences Ciblées en Développement Web';
+      document.querySelector('.page-footer p').textContent = 'Compétences complètes pour le développement et le déploiement d\'applications web modernes dans neuf domaines critiques.';
+    } else {
+      document.title = 'Web Development Target Skills';
+      document.querySelector('.page-header h1').textContent = 'Web Development Target Skills';
+      document.querySelector('.page-header p').textContent = 'Comprehensive skills for modern web application development and deployment';
+      document.querySelector('.page-footer h3').textContent = 'Web Development Target Skills';
+      document.querySelector('.page-footer p').textContent = 'Comprehensive skills for modern web application development and deployment across nine critical areas.';
+    }
+    
+    // Update AI panel if open
+    updateAIContent();
+  }
+  
+  // ========== IMPLEMENTATION 2: DARK/LIGHT THEME ==========
+  function setupThemeToggle() {
+    const themeToggle = document.getElementById('themeToggle');
+    const icon = themeToggle.querySelector('i');
+    
+    // Check for saved theme or system preference
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'light' || (!savedTheme && !systemPrefersDark)) {
+      enableLightTheme();
+    }
+    
+    themeToggle.addEventListener('click', () => {
+      if (document.body.classList.contains('light-theme')) {
+        disableLightTheme();
+      } else {
+        enableLightTheme();
+      }
+    });
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        if (e.matches) {
+          disableLightTheme();
+        } else {
+          enableLightTheme();
+        }
+      }
+    });
+  }
+  
+  function enableLightTheme() {
+    document.body.classList.add('light-theme');
+    const themeToggle = document.getElementById('themeToggle');
+    const icon = themeToggle.querySelector('i');
+    icon.className = 'fas fa-sun';
+    themeToggle.innerHTML = '<i class="fas fa-sun"></i> Light';
+    localStorage.setItem('theme', 'light');
+  }
+  
+  function disableLightTheme() {
+    document.body.classList.remove('light-theme');
+    const themeToggle = document.getElementById('themeToggle');
+    const icon = themeToggle.querySelector('i');
+    icon.className = 'fas fa-moon';
+    themeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark';
+    localStorage.setItem('theme', 'dark');
+  }
+  
+  // ========== IMPLEMENTATION 3: WORKING AI ASSISTANT ==========
+  const aiKnowledge = {
+    en: {
+      '1': {
+        title: 'Strategic Problem Solving',
+        explanation: 'Designing solutions for complex problems requires understanding root causes and collaborating with stakeholders.',
+        examples: [
+          'Think of it like urban planning: You need to understand traffic patterns, resident needs, and environmental impact before designing a new road system.',
+          'In web development, this means researching user behavior, business goals, and technical constraints before writing code.'
+        ]
+      },
+      '2': {
+        title: 'Digital Entrepreneurship',
+        explanation: 'Creating technology-driven businesses involves innovation, risk management, and ethical considerations.',
+        examples: [
+          'Like starting a restaurant: You need a unique concept (innovation), manage food safety regulations (compliance), and ensure customer satisfaction (ethics).',
+          'A successful digital entrepreneur balances technical innovation with sustainable business practices.'
+        ]
+      },
+      '3': {
+        title: 'SAE Framework Application',
+        explanation: 'A structured approach to web development that considers understanding, design, development, and interaction.',
+        examples: [
+          'Like building a house: First understand the family\'s needs, then design blueprints, then construct, and finally ensure the house is livable and comfortable.',
+          'For international projects, this includes considering cultural differences in design and language support.'
+        ]
+      },
+      '4': {
+        title: 'High-Quality UX Design',
+        explanation: 'Creating user experiences that are intuitive, efficient, and satisfying.',
+        examples: [
+          'Like a well-designed kitchen: Everything has its place, tools are within reach, and workflow is logical.',
+          'Good UX reduces user frustration and increases engagement through thoughtful design.'
+        ]
+      },
+      '5': {
+        title: 'Web Development Process',
+        explanation: 'The complete lifecycle of creating and maintaining web applications.',
+        examples: [
+          'Like publishing a book: Plan the content, write drafts, edit thoroughly, publish, and then update editions based on feedback.',
+          'Modern development includes continuous integration and deployment for ongoing improvement.'
+        ]
+      },
+      '6': {
+        title: 'Client-Server Architecture',
+        explanation: 'Separating front-end (what users see) from back-end (data processing) for better scalability.',
+        examples: [
+          'Like a restaurant: The dining area (client-side) where customers order, and the kitchen (server-side) where food is prepared.',
+          'APIs act as waitstaff, carrying requests and responses between the two.'
+        ]
+      },
+      '7': {
+        title: 'Back Office Systems',
+        explanation: 'Administrative interfaces for managing application data and operations.',
+        examples: [
+          'Like a store\'s inventory system: Managers can track stock, process orders, and generate reports without customers seeing the complexity.',
+          'Rich interfaces provide dashboards and real-time data for informed decision-making.'
+        ]
+      },
+      '8': {
+        title: 'Ergonomic Design',
+        explanation: 'Creating interfaces that reduce effort and prevent errors for all users.',
+        examples: [
+          'Like ergonomic office chairs: Designed to support natural posture and reduce strain during long periods of use.',
+          'Accessible design ensures people with disabilities can use your application effectively.'
+        ]
+      },
+      '9': {
+        title: 'Security & Performance',
+        explanation: 'Protecting user data while ensuring fast, reliable application performance.',
+        examples: [
+          'Like a bank vault: Strong security protects valuables, while efficient organization allows quick access when needed.',
+          'Performance optimization is like traffic management - ensuring data flows smoothly without bottlenecks.'
+        ]
+      }
+    },
+    fr: {
+      '1': {
+        title: 'Résolution Stratégique de Problèmes',
+        explanation: 'Concevoir des solutions pour des problèmes complexes nécessite de comprendre les causes profondes et de collaborer avec les parties prenantes.',
+        examples: [
+          'Pensez-y comme à l\'urbanisme : Vous devez comprendre les flux de trafic, les besoins des résidents et l\'impact environnemental avant de concevoir un nouveau système routier.',
+          'En développement web, cela signifie rechercher le comportement des utilisateurs, les objectifs commerciaux et les contraintes techniques avant d\'écrire du code.'
+        ]
+      },
+      '2': {
+        title: 'Entrepreneuriat Numérique',
+        explanation: 'Créer des entreprises axées sur la technologie implique innovation, gestion des risques et considérations éthiques.',
+        examples: [
+          'Comme ouvrir un restaurant : Vous avez besoin d\'un concept unique (innovation), de gérer les réglementations de sécurité alimentaire (conformité) et d\'assurer la satisfaction des clients (éthique).',
+          'Un entrepreneur numérique prospère équilibre l\'innovation technique avec des pratiques commerciales durables.'
+        ]
+      },
+      '3': {
+        title: 'Application du Cadre SAE',
+        explanation: 'Une approche structurée du développement web qui considère la compréhension, la conception, le développement et l\'interaction.',
+        examples: [
+          'Comme construire une maison : D\'abord comprendre les besoins de la famille, puis concevoir les plans, construire, et enfin s\'assurer que la maison est habitable et confortable.',
+          'Pour les projets internationaux, cela inclut de considérer les différences culturelles dans la conception et le support linguistique.'
+        ]
+      },
+      '4': {
+        title: 'Conception UX de Haute Qualité',
+        explanation: 'Créer des expériences utilisateur intuitives, efficaces et satisfaisantes.',
+        examples: [
+          'Comme une cuisine bien conçue : Tout a sa place, les outils sont à portée de main et le flux de travail est logique.',
+          'Une bonne UX réduit la frustration des utilisateurs et augmente l\'engagement grâce à une conception réfléchie.'
+        ]
+      },
+      '5': {
+        title: 'Processus de Développement Web',
+        explanation: 'Le cycle complet de création et de maintenance des applications web.',
+        examples: [
+          'Comme publier un livre : Planifier le contenu, écrire des brouillons, éditer minutieusement, publier, puis mettre à jour les éditions basées sur les retours.',
+          'Le développement moderne inclut l\'intégration et le déploiement continus pour une amélioration constante.'
+        ]
+      },
+      '6': {
+        title: 'Architecture Client-Serveur',
+        explanation: 'Séparer le front-end (ce que voient les utilisateurs) du back-end (traitement des données) pour une meilleure évolutivité.',
+        examples: [
+          'Comme un restaurant : La salle à manger (côté client) où les clients commandent, et la cuisine (côté serveur) où la nourriture est préparée.',
+          'Les API agissent comme le personnel de service, transportant les requêtes et les réponses entre les deux.'
+        ]
+      },
+      '7': {
+        title: 'Systèmes de Back Office',
+        explanation: 'Interfaces administratives pour gérer les données et les opérations de l\'application.',
+        examples: [
+          'Comme le système d\'inventaire d\'un magasin : Les gestionnaires peuvent suivre les stocks, traiter les commandes et générer des rapports sans que les clients voient la complexité.',
+          'Les interfaces riches fournissent des tableaux de bord et des données en temps réel pour une prise de décision éclairée.'
+        ]
+      },
+      '8': {
+        title: 'Conception Ergonomique',
+        explanation: 'Créer des interfaces qui réduisent l\'effort et préviennent les erreurs pour tous les utilisateurs.',
+        examples: [
+          'Comme des chaises de bureau ergonomiques : Conçues pour soutenir la posture naturelle et réduire la tension pendant de longues périodes d\'utilisation.',
+          'La conception accessible garantit que les personnes handicapées peuvent utiliser votre application efficacement.'
+        ]
+      },
+      '9': {
+        title: 'Sécurité & Performance',
+        explanation: 'Protéger les données des utilisateurs tout en assurant des performances d\'application rapides et fiables.',
+        examples: [
+          'Comme un coffre-fort de banque : Une sécurité forte protège les objets de valeur, tandis qu\'une organisation efficace permet un accès rapide lorsque nécessaire.',
+          'L\'optimisation des performances est comme la gestion du trafic - assurer que les données circulent sans goulots d\'étranglement.'
+        ]
+      }
+    }
+  };
+  
+  function setupAIAssistant() {
+    const aiBtn = document.getElementById('aiAssistant');
+    const aiPanel = document.getElementById('aiPanel');
+    
+    aiBtn.addEventListener('click', () => {
+      aiPanel.classList.toggle('active');
+      
+      if (aiPanel.classList.contains('active') && !document.getElementById('aiWelcome')) {
+        showAIWelcome();
+      }
+    });
+    
+    // Close AI panel when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!aiPanel.contains(e.target) && !aiBtn.contains(e.target)) {
+        aiPanel.classList.remove('active');
+      }
+    });
+    
+    // Skill number clicks trigger AI explanations
+    document.querySelectorAll('.skill-number').forEach(number => {
+      number.addEventListener('click', (e) => {
+        const skillNum = number.getAttribute('data-skill');
+        showSkillExplanation(skillNum);
+        e.stopPropagation();
+      });
+    });
+  }
+  
+  function showAIWelcome() {
+    const aiContent = document.getElementById('aiContent');
+    const welcomeHTML = `
+      <div class="ai-message" id="aiWelcome">
+        <h4>👋 ${currentLanguage === 'en' ? 'Hello! I\'m your Learning Assistant' : 'Bonjour ! Je suis votre Assistant d\'Apprentissage'}</h4>
+        <p>${currentLanguage === 'en' 
+          ? 'I can help explain complex web development concepts in simple terms. Click on the skill numbers (1-9) for detailed explanations with real-world examples!' 
+          : 'Je peux aider à expliquer des concepts complexes de développement web en termes simples. Cliquez sur les numéros de compétences (1-9) pour des explications détaillées avec des exemples concrets !'}</p>
+        <div class="ai-example">
+          ${currentLanguage === 'en' 
+            ? 'Try it now: Click on any skill number above!' 
+            : 'Essayez maintenant : Cliquez sur n\'importe quel numéro de compétence ci-dessus !'}
+        </div>
+      </div>
+    `;
+    
+    aiContent.innerHTML = welcomeHTML;
+  }
+  
+  function showSkillExplanation(skillNum) {
+    const aiContent = document.getElementById('aiContent');
+    const knowledge = aiKnowledge[currentLanguage][skillNum];
+    
+    if (!knowledge) return;
+    
+    const explanationHTML = `
+      <div class="ai-message">
+        <h4>📚 ${currentLanguage === 'en' ? 'Skill' : 'Compétence'} ${skillNum}: ${knowledge.title}</h4>
+        <p>${knowledge.explanation}</p>
+        ${knowledge.examples.map(example => `
+          <div class="ai-example">
+            ${example}
+          </div>
+        `).join('')}
+      </div>
+      <div class="ai-message">
+        <h4>${currentLanguage === 'en' ? '💡 Key Takeaway' : '💡 Point Clé'}</h4>
+        <p>${currentLanguage === 'en' 
+          ? 'Mastering this skill requires both technical knowledge and practical application through real projects.' 
+          : 'Maîtriser cette compétence nécessite à la fois des connaissances techniques et une application pratique via des projets réels.'}</p>
+      </div>
+    `;
+    
+    aiContent.innerHTML = explanationHTML;
+    
+    // Show the panel if it's not already open
+    document.getElementById('aiPanel').classList.add('active');
+    
+    // Scroll to the skill
+    document.getElementById(`skill${skillNum}`).scrollIntoView({ behavior: 'smooth' });
+  }
+  
+  function updateAIContent() {
+    if (document.getElementById('aiPanel').classList.contains('active')) {
+      if (document.getElementById('aiWelcome')) {
+        showAIWelcome();
+      }
+    }
+  }
+  
+  // ========== IMPLEMENTATION 4: PROGRESS TRACKER ==========
+  function setupProgressTracker() {
+    const progressDots = document.querySelectorAll('.progress-dot');
+    const skillCards = document.querySelectorAll('.skill-card');
+    
+    // Set up dot clicks
+    progressDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const targetId = dot.getAttribute('data-target');
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+    
+    // Update active dot on scroll
+    function updateProgressTracker() {
+      const scrollPosition = window.scrollY + window.innerHeight / 3;
+      
+      skillCards.forEach((card, index) => {
+        const cardTop = card.offsetTop;
+        const cardBottom = cardTop + card.offsetHeight;
+        
+        if (scrollPosition >= cardTop && scrollPosition <= cardBottom) {
+          progressDots.forEach(dot => dot.classList.remove('active'));
+          if (progressDots[index]) {
+            progressDots[index].classList.add('active');
+          }
+        }
+      });
+    }
+    
+    window.addEventListener('scroll', updateProgressTracker);
+    updateProgressTracker(); // Initial call
+  }
+  
+  // ========== IMPLEMENTATION 5: KNOWLEDGE CHECK QUIZZES ==========
+  function setupKnowledgeChecks() {
+    const quizOptions = document.querySelectorAll('.quiz-option');
+    
+    quizOptions.forEach(option => {
+      option.addEventListener('click', function() {
+        const isCorrect = this.getAttribute('data-correct') === 'true';
+        
+        // Remove previous states
+        const parent = this.parentElement;
+        parent.querySelectorAll('.quiz-option').forEach(opt => {
+          opt.classList.remove('correct', 'incorrect');
+        });
+        
+        // Add current state
+        this.classList.add(isCorrect ? 'correct' : 'incorrect');
+        
+        // Show feedback
+        const skillNum = this.closest('.skill-card').querySelector('.skill-number').getAttribute('data-skill');
+        showQuizFeedback(skillNum, isCorrect);
+      });
+    });
+  }
+  
+  function showQuizFeedback(skillNum, isCorrect) {
+    const feedbackMessages = {
+      en: {
+        '2': {
+          correct: '✅ Correct! Digital entrepreneurship focuses on sustainable value creation, not just short-term profits.',
+          incorrect: '❌ Not quite right. Digital entrepreneurship emphasizes sustainable value creation, innovation, and customer-centric approaches rather than profit maximization at all costs.'
+        },
+        '5': {
+          correct: '✅ Correct! Testing is essential after development to ensure quality before deployment.',
+          incorrect: '❌ Testing comes immediately after development to ensure the application works correctly before users access it.'
+        },
+        '8': {
+          correct: '✅ Correct! WCAG provides internationally recognized accessibility guidelines.',
+          incorrect: '❌ WCAG (Web Content Accessibility Guidelines) provides standards for making web content accessible to people with disabilities.'
+        }
+      },
+      fr: {
+        '2': {
+          correct: '✅ Correct ! L\'entrepreneuriat numérique se concentre sur la création de valeur durable, pas seulement sur les profits à court terme.',
+          incorrect: '❌ Pas tout à fait juste. L\'entrepreneuriat numérique met l\'accent sur la création de valeur durable, l\'innovation et les approches centrées sur le client plutôt que la maximisation des profits à tout prix.'
+        },
+        '5': {
+          correct: '✅ Correct ! Les tests sont essentiels après le développement pour assurer la qualité avant le déploiement.',
+          incorrect: '❌ Les tests viennent immédiatement après le développement pour s\'assurer que l\'application fonctionne correctement avant que les utilisateurs y accèdent.'
+        },
+        '8': {
+          correct: '✅ Correct ! WCAG fournit des directives d\'accessibilité reconnues internationalement.',
+          incorrect: '❌ WCAG (Web Content Accessibility Guidelines) fournit des normes pour rendre le contenu web accessible aux personnes handicapées.'
+        }
+      }
+    };
+    
+    const feedback = feedbackMessages[currentLanguage]?.[skillNum];
+    if (!feedback) return;
+    
+    const message = isCorrect ? feedback.correct : feedback.incorrect;
+    showAIMessage(
+      isCorrect ? '✅ Correct!' : '❌ Not quite right',
+      message
+    );
+  }
+  
+  function showAIMessage(title, message) {
+    const aiContent = document.getElementById('aiContent');
+    const messageHTML = `
+      <div class="ai-message">
+        <h4>${title}</h4>
+        <p>${message}</p>
+      </div>
+    `;
+    
+    aiContent.innerHTML = messageHTML;
+    document.getElementById('aiPanel').classList.add('active');
+  }
+  
+  // ========== SCROLL ANIMATIONS ==========
+  function setupScrollAnimations() {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+    
+    document.querySelectorAll('.skill-card').forEach(card => {
+      observer.observe(card);
+    });
+  }
+  
+  // ========== KEYBOARD SHORTCUTS ==========
+  function setupKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+      // Escape closes AI panel
+      if (e.key === 'Escape') {
+        document.getElementById('aiPanel').classList.remove('active');
+      }
+      
+      // Number keys 1-9 show skill explanations
+      if (e.key >= '1' && e.key <= '9' && !e.ctrlKey && !e.altKey) {
+        showSkillExplanation(e.key);
+      }
+      
+      // L toggles language
+      if (e.key === 'l' && e.ctrlKey) {
+        e.preventDefault();
+        const newLang = currentLanguage === 'en' ? 'fr' : 'en';
+        switchLanguage(newLang);
+        
+        // Update active button
+        document.querySelectorAll('.control-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.getAttribute('data-lang') === newLang);
+        });
+      }
+      
+      // T toggles theme
+      if (e.key === 't' && e.ctrlKey) {
+        e.preventDefault();
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.click();
+      }
+    });
+  }
+  
+  // ========== INITIALIZE EVERYTHING ==========
+  document.addEventListener('DOMContentLoaded', () => {
+    setupLanguageSwitching();
+    setupThemeToggle();
+    setupAIAssistant();
+    setupProgressTracker();
+    setupKnowledgeChecks();
+    setupScrollAnimations();
+    setupKeyboardShortcuts();
+    
+    // Show welcome message after a short delay
+    setTimeout(() => {
+      if (!localStorage.getItem('welcomeShown')) {
+        document.getElementById('aiPanel').classList.add('active');
+        showAIWelcome();
+        localStorage.setItem('welcomeShown', 'true');
+      }
+    }, 1000);
+  });
+</script>
+</body>
+</html>

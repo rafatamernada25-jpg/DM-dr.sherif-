@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 01 - Foundations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ========== CONFIGURATION DU THÈME BLUEPRINT ========== */
+        :root {
+            --primary-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --dark-bg: #020617;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border-light: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top, #0f172a, #020617);
+            color: #e5e7eb;
+            min-height: 100vh;
+        }
+
+        /* ========== HERO SECTION ========== */
+        .hero {
+            padding: 80px 5% 40px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .module-nav-top {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .module-btn {
+            text-decoration: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid var(--border-light);
+            transition: 0.3s ease;
+        }
+
+        .module-btn:hover {
+            background: rgba(255, 255, 255, 0.2) !important;
+            transform: translateX(-5px);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(90deg, #60a5fa, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            max-width: 750px;
+            margin: 0 auto;
+            color: #94a3b8;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* ========== TIMELINE STRUCTURE ========== */
+        .block {
+            max-width: 850px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .block-title {
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        /* Ligne verticale de la timeline */
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary-blue), var(--accent-cyan), transparent);
+        }
+
+        .module {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .module-number {
+            position: absolute;
+            left: -53px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 28px;
+            height: 28px;
+            background: #1e293b;
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 800;
+            z-index: 2;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .module-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+        }
+
+        .module-content:hover {
+            transform: translateX(15px);
+            border-color: var(--primary-blue);
+            background: rgba(59, 130, 246, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .module-image {
+            width: 70px;
+            height: 70px;
+            flex-shrink: 0;
+        }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            text-align: center;
+            padding: 50px;
+            color: #4b5563;
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-light);
+            margin-top: 80px;
+        }
+    </style>
+</head>
+<body>
+
+   <div class="module-page">
+    
+    <header class="hero">
+        <div class="module-nav-top">
+            <a href="year1.html" class="module-btn" style="background: rgba(255,255,255,0.1);">← Back to Curriculum</a>
+        </div>
+        <h1>Module 01: Data Modelling</h1>
+        <p>Data Modelling is indeed the "blueprint" phase where you define the structure, relationships, and constraints of your data before any technical implementation.</p>
+    </header>
+
+    
+
+     <main>
+      <section class="block">
+        <h2 class="block-title">📖 Foundation Curriculum</h2>
+        
+        <div class="timeline">
+            <div class="module">
+                <span class="module-number">01</span>
+                <div class="module-content">
+                    <div class="module-text">
+                        <span class="badge-tag" style="background: rgba(59, 130, 246, 0.2); color: #3b82f6; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">Grammar</span>
+                        <h3 style="color: white; margin: 15px 0; font-size: 1.5rem;">The Power Verbs</h3>
+                        <p style="color: #94a3b8; margin: 0; font-size: 0.95rem;">Master the core actions that define data interactions.</p>
+                    </div>
+                    <div class="module-image" style="font-size: 3rem; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border-radius: 16px;">
+                        👤
+                    </div>
+                </div>
+            </div>
+            </div>
+      </section>
+     </main>
+     
+    <footer class="footer">
+        Academic Learning Material – Module 01 Foundations
+    </footer>
+
+   </div> 
+</body>
+</html>

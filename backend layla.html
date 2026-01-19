@@ -1,0 +1,2715 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Back-End Development Target Skills</title>
+  <style>
+    /* Global Styles */
+    :root {
+      --primary-blue: #3b82f6;
+      --primary-purple: #7c3aed;
+      --accent-green: #10b981;
+      --dark-bg: #030712;
+      --card-bg: rgba(255, 255, 255, 0.06);
+      --border-light: rgba(255, 255, 255, 0.15);
+      --text-primary: #e5e7eb;
+      --text-secondary: #cbd5e1;
+    }
+
+    /* Light Theme Variables */
+    .light-theme {
+      --dark-bg: #f8fafc;
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --border-light: rgba(30, 41, 59, 0.1);
+      --text-primary: #1e293b;
+      --text-secondary: #475569;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      background: radial-gradient(ellipse at top, var(--dark-bg), #020617);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      min-height: 100vh;
+      transition: background 0.3s ease;
+    }
+
+    .light-theme body {
+      background: radial-gradient(ellipse at top, var(--dark-bg), #e2e8f0);
+    }
+
+    /* Language & Theme Controls */
+    .controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1001;
+      display: flex;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 25px;
+      padding: 5px;
+    }
+
+    .light-theme .controls {
+      background: rgba(30, 41, 59, 0.1);
+      border: 1px solid rgba(30, 41, 59, 0.2);
+    }
+
+    .control-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .control-btn.active {
+      background: linear-gradient(135deg, #3b82f6, #7c3aed);
+      color: white;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .control-btn:hover:not(.active) {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .light-theme .control-btn:hover:not(.active) {
+      background: rgba(30, 41, 59, 0.1);
+    }
+
+    /* AI Assistant */
+    .ai-assistant {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 1000;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #3b82f6, #7c3aed);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .ai-assistant:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 12px 40px rgba(59, 130, 246, 0.6);
+    }
+
+    .ai-assistant i {
+      font-size: 1.5rem;
+      color: white;
+    }
+
+    .ai-panel {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      width: 400px;
+      max-height: 500px;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 0;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+      transition: all 0.4s ease;
+      display: none;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+
+    .light-theme .ai-panel {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(30, 41, 59, 0.1);
+    }
+
+    .ai-panel.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ai-header {
+      padding: 20px;
+      background: linear-gradient(135deg, #3b82f6, #7c3aed);
+      color: white;
+    }
+
+    .ai-header h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ai-content {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      max-height: 380px;
+    }
+
+    .ai-message {
+      background: rgba(59, 130, 246, 0.1);
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+      animation: slideIn 0.3s ease;
+      border-left: 3px solid #3b82f6;
+    }
+
+    .light-theme .ai-message {
+      background: rgba(59, 130, 246, 0.05);
+    }
+
+    .ai-message h4 {
+      margin: 0 0 10px 0;
+      color: #60a5fa;
+      font-size: 1rem;
+    }
+
+    .ai-message p {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .ai-example {
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 3px solid #10b981;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .light-theme .ai-example {
+      background: rgba(16, 185, 129, 0.05);
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Skills Container */
+    .skills-container {
+      width: 80%;
+      margin: 60px auto 80px;
+      max-width: 1200px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Page Header */
+    .page-header {
+      text-align: center;
+      padding: 100px 20px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .page-header h1 {
+      font-size: 3.5rem;
+      margin: 0;
+      background: linear-gradient(90deg, #60a5fa, #a78bfa, #10b981);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .page-header h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 25%;
+      width: 50%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+    }
+    
+    /* Skill Cards */
+    .skill-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      padding: 35px;
+      margin-bottom: 40px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .skill-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+      transform: scaleX(0);
+      transition: transform 0.6s ease;
+    }
+
+    .skill-card:hover::before {
+      transform: scaleX(1);
+    }
+    
+    .skill-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(59, 130, 246, 0.3);
+      border-color: #3b82f6;
+    }
+    
+    .skill-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #3b82f6, #7c3aed);
+      color: white;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      font-weight: bold;
+      margin-right: 20px;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .skill-card:hover .skill-number {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+    }
+    
+    .skill-title {
+      color: var(--text-primary);
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+      padding-bottom: 15px;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+    }
+    
+    .skill-content {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-size: 1.1rem;
+      position: relative;
+    }
+    
+    .skill-content strong {
+      color: #60a5fa;
+      position: relative;
+      font-weight: 600;
+    }
+    
+    .skill-highlight {
+      background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), rgba(124, 58, 237, 0.1));
+      border-left: 4px solid #3b82f6;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 0 12px 12px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .light-theme .skill-highlight {
+      background: linear-gradient(90deg, rgba(59, 130, 246, 0.05), rgba(124, 58, 237, 0.05));
+    }
+
+    .skill-highlight::before {
+      content: '💡';
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      opacity: 0.2;
+      font-size: 1.5rem;
+    }
+    
+    .skill-content ul {
+      padding-left: 24px;
+      margin: 20px 0;
+    }
+    
+    .skill-content li {
+      margin-bottom: 12px;
+      position: relative;
+      padding-left: 10px;
+    }
+
+    .skill-content li::before {
+      content: '▶';
+      position: absolute;
+      left: -15px;
+      color: #3b82f6;
+      font-size: 0.8rem;
+      transition: transform 0.3s ease;
+    }
+
+    .skill-content li:hover::before {
+      transform: translateX(3px);
+    }
+
+    /* Interactive Learning Features */
+    .learning-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 30px 0;
+    }
+
+    .feature-badge {
+      background: linear-gradient(135deg, #3b82f6, #7c3aed);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: default;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-badge:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Code Visualization */
+    .code-visualization {
+      background: rgba(30, 41, 59, 0.5);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 25px 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .light-theme .code-visualization {
+      background: rgba(241, 245, 249, 0.8);
+      border: 1px solid rgba(30, 41, 59, 0.1);
+    }
+
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .light-theme .code-header {
+      border-bottom: 1px solid rgba(30, 41, 59, 0.1);
+    }
+
+    .code-header h4 {
+      margin: 0;
+      color: #60a5fa;
+      font-size: 1rem;
+    }
+
+    .code-content {
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #94a3b8;
+      overflow-x: auto;
+    }
+
+    .code-keyword {
+      color: #60a5fa;
+    }
+
+    .code-string {
+      color: #10b981;
+    }
+
+    .code-comment {
+      color: #64748b;
+    }
+
+    /* Progress Tracker */
+    .progress-tracker {
+      position: fixed;
+      left: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1000;
+    }
+
+    .progress-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .progress-dot.active {
+      background: #3b82f6;
+      transform: scale(1.2);
+    }
+
+    .progress-dot:hover {
+      transform: scale(1.3);
+    }
+
+    .progress-dot::after {
+      content: attr(data-skill);
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(15, 23, 42, 0.9);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .light-theme .progress-dot::after {
+      background: rgba(255, 255, 255, 0.9);
+      color: #1e293b;
+    }
+
+    .progress-dot:hover::after {
+      opacity: 1;
+    }
+
+    /* Knowledge Check */
+    .knowledge-check {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1));
+      border-radius: 12px;
+      padding: 20px;
+      margin: 25px 0;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .knowledge-check h4 {
+      margin: 0 0 15px 0;
+      color: #10b981;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .quiz-option {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 12px 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .light-theme .quiz-option {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(30, 41, 59, 0.1);
+    }
+
+    .quiz-option:hover {
+      background: rgba(59, 130, 246, 0.1);
+      border-color: #3b82f6;
+    }
+
+    .quiz-option.correct {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: #10b981;
+    }
+
+    .quiz-option.incorrect {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+    }
+
+    /* Footer */
+    .page-footer {
+      padding: 40px;
+      text-align: center;
+      background: rgba(2, 6, 23, 0.95);
+      color: #94a3b8;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin-top: 60px;
+      position: relative;
+      backdrop-filter: blur(10px);
+    }
+
+    .light-theme .page-footer {
+      background: rgba(248, 250, 252, 0.95);
+      border-top: 1px solid rgba(30, 41, 59, 0.1);
+    }
+
+    .page-footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .skills-container {
+        width: 90%;
+        margin: 40px auto 60px;
+      }
+      
+      .page-header {
+        padding: 80px 20px 40px;
+      }
+      
+      .page-header h1 {
+        font-size: 2.2rem;
+      }
+      
+      .skill-title {
+        font-size: 1.4rem;
+      }
+      
+      .skill-content {
+        font-size: 1rem;
+      }
+      
+      .skill-card {
+        padding: 25px;
+      }
+
+      .ai-panel {
+        width: calc(100% - 40px);
+        right: 20px;
+        left: 20px;
+        bottom: 90px;
+      }
+
+      .controls {
+        top: 10px;
+        right: 10px;
+      }
+
+      .progress-tracker {
+        display: none;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+ <nav class="navbar">
+        <a href="year1sem22.html" style="color: white; text-decoration: none; font-weight: 800; letter-spacing: 1px;">← EXIT LESSON</a>
+    </nav>
+  <header class="hero">
+        <div class="english-word">SYLLABUS</div>
+        <h1>Back-end Path</h1>
+        <p>Choose a lesson to start the presentation</p>
+    </header>
+    
+<!-- Controls -->
+<div class="controls">
+  <button class="control-btn active" data-lang="en">
+    <i class="fas fa-language"></i> EN
+  </button>
+  <button class="control-btn" data-lang="fr">
+    <i class="fas fa-language"></i> FR
+  </button>
+  <button class="control-btn" id="themeToggle">
+    <i class="fas fa-moon"></i> Dark
+  </button>
+</div>
+
+<!-- Progress Tracker -->
+<div class="progress-tracker" id="progressTracker">
+  <div class="progress-dot" data-skill="1" data-target="skill1"></div>
+  <div class="progress-dot" data-skill="2" data-target="skill2"></div>
+  <div class="progress-dot" data-skill="3" data-target="skill3"></div>
+  <div class="progress-dot" data-skill="4" data-target="skill4"></div>
+  <div class="progress-dot" data-skill="5" data-target="skill5"></div>
+</div>
+
+<!-- AI Assistant -->
+<button class="ai-assistant" id="aiAssistant">
+  <i class="fas fa-robot"></i>
+</button>
+
+<div class="ai-panel" id="aiPanel">
+  <div class="ai-header">
+    <h3><i class="fas fa-robot"></i> Learning Assistant</h3>
+  </div>
+  <div class="ai-content" id="aiContent">
+    <!-- AI messages will be inserted here -->
+  </div>
+</div>
+
+<!-- ========== HEADER ========== -->
+<header class="page-header">
+  <h1>Back-End Development Target Skills</h1>
+  <p style="margin-top: 20px; color: var(--text-secondary); font-size: 1.1rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+    Mastering the server-side technologies that power modern web applications
+  </p>
+  
+  <!-- Learning Features Badges -->
+  <div class="learning-features">
+    <div class="feature-badge">
+      <i class="fas fa-code"></i>
+    </div>
+    <div class="feature-badge">
+      <i class="fas fa-brain"></i>
+    </div>
+    <div class="feature-badge">
+      <i class="fas fa-language"></i>
+    </div>
+    <div class="feature-badge">
+      <i class="fas fa-moon"></i>
+    </div>
+    <div class="feature-badge">
+      <i class="fas fa-check-circle"></i>
+    </div>
+  </div>
+</header>
+
+<!-- ========== MAIN CONTENT ========== -->
+<main class="skills-container">
+  
+  <!-- Skill 1 -->
+  <div class="skill-card visible" id="skill1">
+    <div class="skill-title">
+      <span class="skill-number" data-skill="1">1</span>
+      <span class="skill-title-text" data-en="The Use of Server-Side Development Frameworks, API Development, and Web Services" data-fr="Utilisation des frameworks de développement côté serveur, développement d'API et services web">The Use of Server-Side Development Frameworks, API Development, and Web Services</span>
+    </div>
+    <div class="skill-content">
+      <p>Server-side development focuses on the logic that runs on a server rather than in a user's browser. Server-side frameworks (such as Django, Spring, Laravel, or Express) provide structured tools to handle common tasks like routing requests, managing databases, handling security, and processing user input. These frameworks save time, reduce errors, and encourage best practices by offering reusable components instead of writing everything from scratch.</p>
+      
+      <div class="skill-highlight">
+        API (Application Programming Interface) development allows different software systems to communicate with each other. An API defines rules for how one application can request data or services from another.
+      </div>
+      
+      <p>For example, a mobile app might use an API to request user data from a server. APIs are essential for building scalable systems, supporting multiple clients (web, mobile, desktop), and separating frontend and backend responsibilities.</p>
+      
+      <p>Web services are systems that expose APIs over the internet using standard protocols like HTTP. They allow applications written in different programming languages and running on different platforms to interact. Together, server-side frameworks, APIs, and web services form the backbone of modern web applications by enabling data processing, communication, and integration.</p>
+      
+      <!-- Code Visualization -->
+      <div class="code-visualization">
+        <div class="code-header">
+          <h4><i class="fas fa-code"></i> Example: REST API Endpoint</h4>
+        </div>
+        <div class="code-content">
+          <span class="code-keyword">// GET /api/users</span><br>
+          <span class="code-keyword">app</span>.<span class="code-keyword">get</span>(<span class="code-string">'/api/users'</span>, (<span class="code-keyword">req</span>, <span class="code-keyword">res</span>) => {<br>
+          &nbsp;&nbsp;<span class="code-keyword">const</span> users = <span class="code-keyword">await</span> User.<span class="code-keyword">findAll</span>();<br>
+          &nbsp;&nbsp;<span class="code-keyword">res</span>.<span class="code-keyword">json</span>({ <span class="code-string">success</span>: <span class="code-keyword">true</span>, <span class="code-string">data</span>: users });<br>
+          });<br><br>
+          <span class="code-comment">// Returns JSON data that frontend can use</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Skill 2 -->
+  <div class="skill-card" id="skill2">
+    <div class="skill-title">
+      <span class="skill-number" data-skill="2">2</span>
+      <span class="skill-title-text" data-en="Object-Oriented Programming: Reusing Software Components and Maintaining Clean Code" data-fr="Programmation Orientée Objet : Réutilisation des composants logiciels et maintien d'un code propre">Object-Oriented Programming: Reusing Software Components and Maintaining Clean Code</span>
+    </div>
+    <div class="skill-content">
+      <p>Object-Oriented Programming (OOP) is a programming paradigm based on the concept of objects, which bundle data (attributes) and behavior (methods) together. Core OOP principles include encapsulation, inheritance, polymorphism, and abstraction. These principles help developers create systems that are modular, reusable, and easier to understand.</p>
+      
+      <div class="skill-highlight">
+        Reusing software components is a key advantage of OOP. By designing classes that represent real-world concepts or system responsibilities, developers can reuse them across multiple projects or parts of the same application.
+      </div>
+      
+      <p>This reduces duplication and improves reliability since reused components are already tested.</p>
+      
+      <p>Maintaining clean code means writing code that is readable, well-structured, and easy to modify. Clean code follows naming conventions, avoids unnecessary complexity, and separates responsibilities clearly. OOP supports clean code by encouraging small, focused classes and methods, making software easier to debug, maintain, and extend over time.</p>
+      
+      <!-- Knowledge Check -->
+      <div class="knowledge-check">
+        <h4><i class="fas fa-question-circle"></i> Quick Knowledge Check</h4>
+        <p>Which OOP principle hides internal implementation details?</p>
+        <div class="quiz-options">
+          <div class="quiz-option" data-correct="true">Encapsulation</div>
+          <div class="quiz-option" data-correct="false">Inheritance</div>
+          <div class="quiz-option" data-correct="false">Polymorphism</div>
+          <div class="quiz-option" data-correct="false">Abstraction</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Skill 3 -->
+  <div class="skill-card" id="skill3">
+    <div class="skill-title">
+      <span class="skill-number" data-skill="3">3</span>
+      <span class="skill-title-text" data-en="Web Services: Objects, Standards, APIs, and Exchange Formats" data-fr="Services Web : Objets, Standards, API et Formats d'échange">Web Services: Objects, Standards, APIs, and Exchange Formats</span>
+    </div>
+    <div class="skill-content">
+      <p>Web services rely on several core concepts to function effectively. <strong>Objects</strong> represent structured data entities (such as users, products, or orders) that are exchanged between systems. These objects are typically serialized into a format that can be transmitted over a network.</p>
+      
+      <div class="skill-highlight">
+        <strong>Standards</strong> ensure that different systems can communicate reliably. Common standards include HTTP for communication, REST or SOAP for service design, and authentication standards for security.
+      </div>
+      
+      <p><strong>APIs</strong> define how clients interact with web services. They specify available operations, required inputs, and expected outputs. APIs act as contracts between systems, ensuring predictable behavior.</p>
+      
+      <p><strong>Exchange formats</strong> such as JSON and XML are used to transfer data between systems. JSON is lightweight and widely used in modern web applications, while XML is more structured and often used in enterprise systems. Together, objects, standards, APIs, and exchange formats make web services interoperable and scalable.</p>
+      
+      <!-- Code Visualization -->
+      <div class="code-visualization">
+        <div class="code-header">
+          <h4><i class="fas fa-exchange-alt"></i> JSON Data Exchange Example</h4>
+        </div>
+        <div class="code-content">
+          {<br>
+          &nbsp;&nbsp;<span class="code-string">"user"</span>: {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"id"</span>: <span class="code-keyword">12345</span>,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"name"</span>: <span class="code-string">"John Doe"</span>,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"email"</span>: <span class="code-string">"john@example.com"</span><br>
+          &nbsp;&nbsp;},<br>
+          &nbsp;&nbsp;<span class="code-string">"status"</span>: <span class="code-string">"success"</span>,<br>
+          &nbsp;&nbsp;<span class="code-string">"timestamp"</span>: <span class="code-string">"2024-01-15T10:30:00Z"</span><br>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Skill 4 -->
+  <div class="skill-card" id="skill4">
+    <div class="skill-title">
+      <span class="skill-number" data-skill="4">4</span>
+      <span class="skill-title-text" data-en="Discovering Server-Side Frameworks" data-fr="Découverte des Frameworks Côté Serveur">Discovering Server-Side Frameworks</span>
+    </div>
+    <div class="skill-content">
+      <p>Discovering server-side frameworks involves understanding their purpose, features, and use cases. A server-side framework provides a foundation for building backend applications efficiently by handling repetitive tasks like request handling, session management, and database interaction.</p>
+      
+      <div class="skill-highlight">
+        Different frameworks are designed for different needs. Some focus on rapid development, others on performance, scalability, or enterprise-level security.
+      </div>
+      
+      <p>Learning server-side frameworks helps developers understand architectural patterns such as Model-View-Controller (MVC) and how applications are structured in real-world environments.</p>
+      
+      <p>By exploring multiple frameworks, developers gain insight into best practices, trade-offs, and how to choose the right tool for a given project. This knowledge is critical for building robust and maintainable server-side applications.</p>
+      
+      <!-- Knowledge Check -->
+      <div class="knowledge-check">
+        <h4><i class="fas fa-question-circle"></i> Framework Selection</h4>
+        <p>Which framework is known for rapid prototyping in Python?</p>
+        <div class="quiz-options">
+          <div class="quiz-option" data-correct="true">Django</div>
+          <div class="quiz-option" data-correct="false">Spring Boot</div>
+          <div class="quiz-option" data-correct="false">Express.js</div>
+          <div class="quiz-option" data-correct="false">Laravel</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Skill 5 -->
+  <div class="skill-card" id="skill5">
+    <div class="skill-title">
+      <span class="skill-number" data-skill="5">5</span>
+      <span class="skill-title-text" data-en="Recognizing and Using Design Patterns (Factory Method, Adapter, Observer) – Critical Learning Objective" data-fr="Reconnaissance et utilisation des Design Patterns (Méthode Factory, Adaptateur, Observateur) – Objectif d'apprentissage critique">Recognizing and Using Design Patterns (Factory Method, Adapter, Observer) – Critical Learning Objective</span>
+    </div>
+    <div class="skill-content">
+      <p>Design patterns are proven solutions to common software design problems. They are not code templates but reusable ideas that guide how code should be structured. Recognizing and using design patterns improves code flexibility, readability, and scalability.</p>
+      
+      <div class="skill-highlight">
+        <strong>The Factory Method pattern</strong> is used to create objects without specifying the exact class to instantiate. It promotes loose coupling and makes systems easier to extend.
+      </div>
+      
+      <p><strong>The Adapter pattern</strong> allows incompatible interfaces to work together. It acts as a bridge between two systems without changing their existing code.</p>
+      
+      <p><strong>The Observer pattern</strong> defines a one-to-many relationship where multiple objects are notified automatically when another object's state changes. This is commonly used in event-driven systems.</p>
+      
+      <p>Understanding and applying design patterns is a critical learning objective because it helps developers think at a higher architectural level, communicate ideas effectively with other developers, and build systems that are easier to maintain and evolve.</p>
+      
+      <!-- Code Visualization -->
+      <div class="code-visualization">
+        <div class="code-header">
+          <h4><i class="fas fa-cogs"></i> Factory Method Pattern</h4>
+        </div>
+        <div class="code-content">
+          <span class="code-keyword">interface</span> Document {<br>
+          &nbsp;&nbsp;<span class="code-keyword">open</span>();<br>
+          }<br><br>
+          <span class="code-keyword">class</span> PDFDocument <span class="code-keyword">implements</span> Document {<br>
+          &nbsp;&nbsp;<span class="code-keyword">open</span>() { /* Open PDF */ }<br>
+          }<br><br>
+          <span class="code-keyword">class</span> DocumentFactory {<br>
+          &nbsp;&nbsp;<span class="code-keyword">createDocument</span>(type) {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">if</span> (type === <span class="code-string">'pdf'</span>) <span class="code-keyword">return new</span> PDFDocument();<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// Factory handles creation logic</span><br>
+          &nbsp;&nbsp;}<br>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ========== FOOTER ========== -->
+<footer class="page-footer">
+  <div style="max-width: 600px; margin: 0 auto;">
+    <h3 style="color: var(--text-primary); margin-bottom: 20px;">Back-End Development Target Skills</h3>
+    <p style="margin-bottom: 20px; color: var(--text-secondary);">A comprehensive overview of essential server-side development concepts and technologies for modern web applications.</p>
+    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 30px;">
+      <i class="fab fa-js" style="font-size: 1.5rem; color: var(--text-secondary);"></i>
+      <i class="fab fa-python" style="font-size: 1.5rem; color: var(--text-secondary);"></i>
+      <i class="fab fa-java" style="font-size: 1.5rem; color: var(--text-secondary);"></i>
+      <i class="fas fa-code" style="font-size: 1.5rem; color: var(--text-secondary);"></i>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ========== IMPLEMENTATION 1: LANGUAGE SWITCHING ==========
+  let currentLanguage = 'en';
+  
+  function setupLanguageSwitching() {
+    const languageButtons = document.querySelectorAll('[data-lang]');
+    
+    languageButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const lang = button.getAttribute('data-lang');
+        switchLanguage(lang);
+        
+        // Update active button
+        languageButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+      });
+    });
+  }
+  
+  function switchLanguage(lang) {
+    currentLanguage = lang;
+    
+    // Update all translatable elements
+    document.querySelectorAll('[data-en]').forEach(element => {
+      const text = element.getAttribute(`data-${lang}`);
+      if (text) element.textContent = text;
+    });
+    
+    // Update page title
+    if (lang === 'fr') {
+      document.title = 'Compétences Ciblées en Développement Back-End';
+      document.querySelector('.page-header h1').textContent = 'Compétences Ciblées en Développement Back-End';
+      document.querySelector('.page-header p').textContent = 'Maîtrise des technologies côté serveur qui alimentent les applications web modernes';
+      document.querySelector('.page-footer h3').textContent = 'Compétences Ciblées en Développement Back-End';
+      document.querySelector('.page-footer p').textContent = 'Un aperçu complet des concepts et technologies essentiels de développement côté serveur pour les applications web modernes.';
+    } else {
+      document.title = 'Back-End Development Target Skills';
+      document.querySelector('.page-header h1').textContent = 'Back-End Development Target Skills';
+      document.querySelector('.page-header p').textContent = 'Mastering the server-side technologies that power modern web applications';
+      document.querySelector('.page-footer h3').textContent = 'Back-End Development Target Skills';
+      document.querySelector('.page-footer p').textContent = 'A comprehensive overview of essential server-side development concepts and technologies for modern web applications.';
+    }
+    
+    // Update AI panel if open
+    updateAIContent();
+  }
+  
+  // ========== IMPLEMENTATION 2: DARK/LIGHT THEME ==========
+  function setupThemeToggle() {
+    const themeToggle = document.getElementById('themeToggle');
+    const icon = themeToggle.querySelector('i');
+    
+    // Check for saved theme or system preference
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'light' || (!savedTheme && !systemPrefersDark)) {
+      enableLightTheme();
+    }
+    
+    themeToggle.addEventListener('click', () => {
+      if (document.body.classList.contains('light-theme')) {
+        disableLightTheme();
+      } else {
+        enableLightTheme();
+      }
+    });
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        if (e.matches) {
+          disableLightTheme();
+        } else {
+          enableLightTheme();
+        }
+      }
+    });
+  }
+  
+  function enableLightTheme() {
+    document.body.classList.add('light-theme');
+    const themeToggle = document.getElementById('themeToggle');
+    const icon = themeToggle.querySelector('i');
+    icon.className = 'fas fa-sun';
+    themeToggle.innerHTML = '<i class="fas fa-sun"></i> Light';
+    localStorage.setItem('theme', 'light');
+  }
+  
+  function disableLightTheme() {
+    document.body.classList.remove('light-theme');
+    const themeToggle = document.getElementById('themeToggle');
+    const icon = themeToggle.querySelector('i');
+    icon.className = 'fas fa-moon';
+    themeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark';
+    localStorage.setItem('theme', 'dark');
+  }
+  
+  // ========== IMPLEMENTATION 3: WORKING AI ASSISTANT ==========
+  const aiKnowledge = {
+    en: {
+      '1': {
+        title: 'Server-Side Frameworks',
+        explanation: 'These are pre-built software structures that handle common backend tasks like database operations, routing, and security.',
+        examples: [
+          'Think of frameworks like Django or Express as construction kits for buildings. They provide the scaffolding so you can focus on the unique features of your app.',
+          'Real-world example: When you log into a website, the framework handles authentication, session management, and database queries behind the scenes.'
+        ]
+      },
+      '2': {
+        title: 'Object-Oriented Programming',
+        explanation: 'A programming style based on objects containing both data and methods to operate on that data.',
+        examples: [
+          'Imagine a Car class. All cars have properties (color, model) and behaviors (drive, brake). Different car types inherit from this base class.',
+          'This makes code reusable: a User class can be used in both login systems and profile management.'
+        ]
+      },
+      '3': {
+        title: 'Web Services Architecture',
+        explanation: 'The standardized way different software systems communicate over the internet.',
+        examples: [
+          'Like international shipping: Packages (data) follow standards (protocols), use specific forms (APIs), and are labeled in formats everyone understands (JSON/XML).',
+          'When you check weather on your phone, it\'s using web services that provide data in a standard format your app can understand.'
+        ]
+      },
+      '4': {
+        title: 'Framework Selection',
+        explanation: 'Choosing the right tool for your specific project requirements.',
+        examples: [
+          'For a quick prototype: Django or Ruby on Rails (rapid development)',
+          'For enterprise applications: Spring or .NET (security, scalability)',
+          'For real-time apps: Node.js with Express (fast, non-blocking I/O)'
+        ]
+      },
+      '5': {
+        title: 'Design Patterns',
+        explanation: 'Proven solutions to common software design problems.',
+        examples: [
+          'Factory Pattern: Like a car factory - you order a "car" without knowing exactly how it\'s built.',
+          'Adapter Pattern: Like a power plug adapter - makes incompatible interfaces work together.',
+          'Observer Pattern: Like a newsletter subscription - subscribers get notified when new content arrives.'
+        ]
+      }
+    },
+    fr: {
+      '1': {
+        title: 'Frameworks Côté Serveur',
+        explanation: 'Structures logicielles pré-construites qui gèrent les tâches backend courantes comme les opérations de base de données, le routage et la sécurité.',
+        examples: [
+          'Pensez aux frameworks comme Django ou Express comme des kits de construction pour bâtiments. Ils fournissent l\'échafaudage pour que vous puissiez vous concentrer sur les fonctionnalités uniques de votre application.',
+          'Exemple concret : Lorsque vous vous connectez à un site web, le framework gère l\'authentification, la gestion des sessions et les requêtes de base de données en arrière-plan.'
+        ]
+      },
+      '2': {
+        title: 'Programmation Orientée Objet',
+        explanation: 'Un style de programmation basé sur des objets contenant à la fois des données et des méthodes pour manipuler ces données.',
+        examples: [
+          'Imaginez une classe Voiture. Toutes les voitures ont des propriétés (couleur, modèle) et des comportements (conduire, freiner). Différents types de voitures héritent de cette classe de base.',
+          'Cela rend le code réutilisable : une classe Utilisateur peut être utilisée à la fois dans les systèmes de connexion et la gestion de profil.'
+        ]
+      },
+      '3': {
+        title: 'Architecture des Services Web',
+        explanation: 'La manière standardisée dont différents systèmes logiciels communiquent sur Internet.',
+        examples: [
+          'Comme l\'expédition internationale : Les colis (données) suivent des normes (protocoles), utilisent des formulaires spécifiques (API) et sont étiquetés dans des formats que tout le monde comprend (JSON/XML).',
+          'Lorsque vous consultez la météo sur votre téléphone, cela utilise des services web qui fournissent des données dans un format standard que votre application peut comprendre.'
+        ]
+      },
+      '4': {
+        title: 'Sélection de Framework',
+        explanation: 'Choisir le bon outil pour les exigences spécifiques de votre projet.',
+        examples: [
+          'Pour un prototype rapide : Django ou Ruby on Rails (développement rapide)',
+          'Pour les applications d\'entreprise : Spring ou .NET (sécurité, évolutivité)',
+          'Pour les applications en temps réel : Node.js avec Express (I/O rapide et non bloquant)'
+        ]
+      },
+      '5': {
+        title: 'Design Patterns',
+        explanation: 'Solutions éprouvées à des problèmes courants de conception logicielle.',
+        examples: [
+          'Pattern Factory : Comme une usine automobile - vous commandez une "voiture" sans savoir exactement comment elle est construite.',
+          'Pattern Adaptateur : Comme un adaptateur de prise électrique - fait travailler ensemble des interfaces incompatibles.',
+          'Pattern Observateur : Comme un abonnement à une newsletter - les abonnés sont notifiés quand du nouveau contenu arrive.'
+        ]
+      }
+    }
+  };
+  
+  function setupAIAssistant() {
+    const aiBtn = document.getElementById('aiAssistant');
+    const aiPanel = document.getElementById('aiPanel');
+    
+    aiBtn.addEventListener('click', () => {
+      aiPanel.classList.toggle('active');
+      
+      if (aiPanel.classList.contains('active') && !document.getElementById('aiWelcome')) {
+        showAIWelcome();
+      }
+    });
+    
+    // Close AI panel when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!aiPanel.contains(e.target) && !aiBtn.contains(e.target)) {
+        aiPanel.classList.remove('active');
+      }
+    });
+    
+    // Skill number clicks trigger AI explanations
+    document.querySelectorAll('.skill-number').forEach(number => {
+      number.addEventListener('click', (e) => {
+        const skillNum = number.getAttribute('data-skill');
+        showSkillExplanation(skillNum);
+        e.stopPropagation();
+      });
+    });
+  }
+  
+  function showAIWelcome() {
+    const aiContent = document.getElementById('aiContent');
+    const welcomeHTML = `
+      <div class="ai-message" id="aiWelcome">
+        <h4>👋 ${currentLanguage === 'en' ? 'Hello! I\'m your Learning Assistant' : 'Bonjour ! Je suis votre Assistant d\'Apprentissage'}</h4>
+        <p>${currentLanguage === 'en' 
+          ? 'I can help explain complex backend concepts in simple terms. Click on the skill numbers (1-5) for detailed explanations with real-world examples!' 
+          : 'Je peux aider à expliquer des concepts backend complexes en termes simples. Cliquez sur les numéros de compétences (1-5) pour des explications détaillées avec des exemples concrets !'}</p>
+        <div class="ai-example">
+          ${currentLanguage === 'en' 
+            ? 'Try it now: Click on any skill number above!' 
+            : 'Essayez maintenant : Cliquez sur n\'importe quel numéro de compétence ci-dessus !'}
+        </div>
+      </div>
+    `;
+    
+    aiContent.innerHTML = welcomeHTML;
+  }
+  
+  function showSkillExplanation(skillNum) {
+    const aiContent = document.getElementById('aiContent');
+    const knowledge = aiKnowledge[currentLanguage][skillNum];
+    
+    if (!knowledge) return;
+    
+    const explanationHTML = `
+      <div class="ai-message">
+        <h4>📚 ${currentLanguage === 'en' ? 'Skill' : 'Compétence'} ${skillNum}: ${knowledge.title}</h4>
+        <p>${knowledge.explanation}</p>
+        ${knowledge.examples.map(example => `
+          <div class="ai-example">
+            ${example}
+          </div>
+        `).join('')}
+      </div>
+    `;
+    
+    aiContent.innerHTML = explanationHTML;
+    
+    // Show the panel if it's not already open
+    document.getElementById('aiPanel').classList.add('active');
+    
+    // Scroll to the skill
+    document.getElementById(`skill${skillNum}`).scrollIntoView({ behavior: 'smooth' });
+  }
+  
+  function updateAIContent() {
+    if (document.getElementById('aiPanel').classList.contains('active')) {
+      if (document.getElementById('aiWelcome')) {
+        showAIWelcome();
+      }
+    }
+  }
+  
+  // ========== IMPLEMENTATION 4: PROGRESS TRACKER ==========
+  function setupProgressTracker() {
+    const progressDots = document.querySelectorAll('.progress-dot');
+    const skillCards = document.querySelectorAll('.skill-card');
+    
+    // Set up dot clicks
+    progressDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const targetId = dot.getAttribute('data-target');
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+    
+    // Update active dot on scroll
+    function updateProgressTracker() {
+      const scrollPosition = window.scrollY + window.innerHeight / 3;
+      
+      skillCards.forEach((card, index) => {
+        const cardTop = card.offsetTop;
+        const cardBottom = cardTop + card.offsetHeight;
+        
+        if (scrollPosition >= cardTop && scrollPosition <= cardBottom) {
+          progressDots.forEach(dot => dot.classList.remove('active'));
+          progressDots[index].classList.add('active');
+        }
+      });
+    }
+    
+    window.addEventListener('scroll', updateProgressTracker);
+    updateProgressTracker(); // Initial call
+  }
+  
+  // ========== IMPLEMENTATION 5: KNOWLEDGE CHECK QUIZZES ==========
+  function setupKnowledgeChecks() {
+    const quizOptions = document.querySelectorAll('.quiz-option');
+    
+    quizOptions.forEach(option => {
+      option.addEventListener('click', function() {
+        const isCorrect = this.getAttribute('data-correct') === 'true';
+        
+        // Remove previous states
+        quizOptions.forEach(opt => {
+          opt.classList.remove('correct', 'incorrect');
+        });
+        
+        // Add current state
+        this.classList.add(isCorrect ? 'correct' : 'incorrect');
+        
+        // Show feedback
+        if (isCorrect) {
+          if (currentLanguage === 'en') {
+            showAIMessage('✅ Correct! Well done!', 'Great job! This concept is fundamental to understanding OOP principles.');
+          } else {
+            showAIMessage('✅ Correct ! Bien joué !', 'Excellent travail ! Ce concept est fondamental pour comprendre les principes de la POO.');
+          }
+        } else {
+          if (currentLanguage === 'en') {
+            showAIMessage('❌ Not quite right', 'Remember: Encapsulation bundles data with methods and restricts direct access to some components.');
+          } else {
+            showAIMessage('❌ Pas tout à fait juste', 'Rappelez-vous : L\'encapsulation regroupe les données avec les méthodes et restreint l\'accès direct à certains composants.');
+          }
+        }
+      });
+    });
+  }
+  
+  function showAIMessage(title, message) {
+    const aiContent = document.getElementById('aiContent');
+    const messageHTML = `
+      <div class="ai-message">
+        <h4>${title}</h4>
+        <p>${message}</p>
+      </div>
+    `;
+    
+    aiContent.innerHTML = messageHTML;
+    document.getElementById('aiPanel').classList.add('active');
+  }
+  
+  // ========== SCROLL ANIMATIONS ==========
+  function setupScrollAnimations() {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+    
+    document.querySelectorAll('.skill-card').forEach(card => {
+      observer.observe(card);
+    });
+  }
+  
+  // ========== KEYBOARD SHORTCUTS ==========
+  function setupKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+      // Escape closes AI panel
+      if (e.key === 'Escape') {
+        document.getElementById('aiPanel').classList.remove('active');
+      }
+      
+      // Number keys 1-5 show skill explanations
+      if (e.key >= '1' && e.key <= '5' && !e.ctrlKey && !e.altKey) {
+        showSkillExplanation(e.key);
+      }
+      
+      // L toggles language
+      if (e.key === 'l' && e.ctrlKey) {
+        e.preventDefault();
+        const newLang = currentLanguage === 'en' ? 'fr' : 'en';
+        switchLanguage(newLang);
+        
+        // Update active button
+        document.querySelectorAll('.control-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.getAttribute('data-lang') === newLang);
+        });
+      }
+      
+      // T toggles theme
+      if (e.key === 't' && e.ctrlKey) {
+        e.preventDefault();
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.click();
+      }
+    });
+  }
+  
+  // ========== INITIALIZE EVERYTHING ==========
+  document.addEventListener('DOMContentLoaded', () => {
+    setupLanguageSwitching();
+    setupThemeToggle();
+    setupAIAssistant();
+    setupProgressTracker();
+    setupKnowledgeChecks();
+    setupScrollAnimations();
+    setupKeyboardShortcuts();
+    
+    // Show welcome message after a short delay
+    setTimeout(() => {
+      if (!localStorage.getItem('welcomeShown')) {
+        document.getElementById('aiPanel').classList.add('active');
+        showAIWelcome();
+        localStorage.setItem('welcomeShown', 'true');
+      }
+    }, 1000);
+  });
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Back-End Development Target Skills</title>
+  <style>
+    /* Global Styles */
+    :root {
+      --primary-blue: #3b82f6;
+      --primary-purple: #7c3aed;
+      --accent-green: #10b981;
+      --dark-bg: #030712;
+      --card-bg: rgba(255, 255, 255, 0.06);
+      --border-light: rgba(255, 255, 255, 0.15);
+      --text-primary: #e5e7eb;
+      --text-secondary: #cbd5e1;
+    }
+
+    /* Light Theme Variables */
+    .light-theme {
+      --dark-bg: #f8fafc;
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --border-light: rgba(30, 41, 59, 0.1);
+      --text-primary: #1e293b;
+      --text-secondary: #475569;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      background: radial-gradient(ellipse at top, var(--dark-bg), #020617);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      min-height: 100vh;
+      transition: background 0.3s ease;
+    }
+
+    .light-theme body {
+      background: radial-gradient(ellipse at top, var(--dark-bg), #e2e8f0);
+    }
+
+    /* Language & Theme Controls */
+    .controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1001;
+      display: flex;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 25px;
+      padding: 5px;
+    }
+
+    .light-theme .controls {
+      background: rgba(30, 41, 59, 0.1);
+      border: 1px solid rgba(30, 41, 59, 0.2);
+    }
+
+    .control-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .control-btn.active {
+      background: linear-gradient(135deg, #3b82f6, #7c3aed);
+      color: white;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .control-btn:hover:not(.active) {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .light-theme .control-btn:hover:not(.active) {
+      background: rgba(30, 41, 59, 0.1);
+    }
+
+    /* AI Assistant */
+    .ai-assistant {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 1000;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #3b82f6, #7c3aed);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .ai-assistant:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 12px 40px rgba(59, 130, 246, 0.6);
+    }
+
+    .ai-assistant i {
+      font-size: 1.5rem;
+      color: white;
+    }
+
+    .ai-panel {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      width: 400px;
+      max-height: 500px;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 0;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+      transition: all 0.4s ease;
+      display: none;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+
+    .light-theme .ai-panel {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(30, 41, 59, 0.1);
+    }
+
+    .ai-panel.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ai-header {
+      padding: 20px;
+      background: linear-gradient(135deg, #3b82f6, #7c3aed);
+      color: white;
+    }
+
+    .ai-header h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ai-content {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      max-height: 380px;
+    }
+
+    .ai-message {
+      background: rgba(59, 130, 246, 0.1);
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+      animation: slideIn 0.3s ease;
+      border-left: 3px solid #3b82f6;
+    }
+
+    .light-theme .ai-message {
+      background: rgba(59, 130, 246, 0.05);
+    }
+
+    .ai-message h4 {
+      margin: 0 0 10px 0;
+      color: #60a5fa;
+      font-size: 1rem;
+    }
+
+    .ai-message p {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .ai-example {
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 3px solid #10b981;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .light-theme .ai-example {
+      background: rgba(16, 185, 129, 0.05);
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Skills Container */
+    .skills-container {
+      width: 80%;
+      margin: 60px auto 80px;
+      max-width: 1200px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Page Header */
+    .page-header {
+      text-align: center;
+      padding: 100px 20px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .page-header h1 {
+      font-size: 3.5rem;
+      margin: 0;
+      background: linear-gradient(90deg, #60a5fa, #a78bfa, #10b981);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .page-header h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 25%;
+      width: 50%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+    }
+    
+    /* Skill Cards */
+    .skill-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      padding: 35px;
+      margin-bottom: 40px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .skill-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+      transform: scaleX(0);
+      transition: transform 0.6s ease;
+    }
+
+    .skill-card:hover::before {
+      transform: scaleX(1);
+    }
+    
+    .skill-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(59, 130, 246, 0.3);
+      border-color: #3b82f6;
+    }
+    
+    .skill-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #3b82f6, #7c3aed);
+      color: white;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      font-weight: bold;
+      margin-right: 20px;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .skill-card:hover .skill-number {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+    }
+    
+    .skill-title {
+      color: var(--text-primary);
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+      padding-bottom: 15px;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+    }
+    
+    .skill-content {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-size: 1.1rem;
+      position: relative;
+    }
+    
+    .skill-content strong {
+      color: #60a5fa;
+      position: relative;
+      font-weight: 600;
+    }
+    
+    .skill-highlight {
+      background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), rgba(124, 58, 237, 0.1));
+      border-left: 4px solid #3b82f6;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 0 12px 12px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .light-theme .skill-highlight {
+      background: linear-gradient(90deg, rgba(59, 130, 246, 0.05), rgba(124, 58, 237, 0.05));
+    }
+
+    .skill-highlight::before {
+      content: '💡';
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      opacity: 0.2;
+      font-size: 1.5rem;
+    }
+    
+    .skill-content ul {
+      padding-left: 24px;
+      margin: 20px 0;
+    }
+    
+    .skill-content li {
+      margin-bottom: 12px;
+      position: relative;
+      padding-left: 10px;
+    }
+
+    .skill-content li::before {
+      content: '▶';
+      position: absolute;
+      left: -15px;
+      color: #3b82f6;
+      font-size: 0.8rem;
+      transition: transform 0.3s ease;
+    }
+
+    .skill-content li:hover::before {
+      transform: translateX(3px);
+    }
+
+    /* Interactive Learning Features */
+    .learning-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 30px 0;
+    }
+
+    .feature-badge {
+      background: linear-gradient(135deg, #3b82f6, #7c3aed);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: default;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-badge:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Code Visualization */
+    .code-visualization {
+      background: rgba(30, 41, 59, 0.5);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 25px 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .light-theme .code-visualization {
+      background: rgba(241, 245, 249, 0.8);
+      border: 1px solid rgba(30, 41, 59, 0.1);
+    }
+
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .light-theme .code-header {
+      border-bottom: 1px solid rgba(30, 41, 59, 0.1);
+    }
+
+    .code-header h4 {
+      margin: 0;
+      color: #60a5fa;
+      font-size: 1rem;
+    }
+
+    .code-content {
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #94a3b8;
+      overflow-x: auto;
+    }
+
+    .code-keyword {
+      color: #60a5fa;
+    }
+
+    .code-string {
+      color: #10b981;
+    }
+
+    .code-comment {
+      color: #64748b;
+    }
+
+    /* Progress Tracker */
+    .progress-tracker {
+      position: fixed;
+      left: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1000;
+    }
+
+    .progress-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .progress-dot.active {
+      background: #3b82f6;
+      transform: scale(1.2);
+    }
+
+    .progress-dot:hover {
+      transform: scale(1.3);
+    }
+
+    .progress-dot::after {
+      content: attr(data-skill);
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(15, 23, 42, 0.9);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .light-theme .progress-dot::after {
+      background: rgba(255, 255, 255, 0.9);
+      color: #1e293b;
+    }
+
+    .progress-dot:hover::after {
+      opacity: 1;
+    }
+
+    /* Knowledge Check */
+    .knowledge-check {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1));
+      border-radius: 12px;
+      padding: 20px;
+      margin: 25px 0;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .knowledge-check h4 {
+      margin: 0 0 15px 0;
+      color: #10b981;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .quiz-option {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 12px 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .light-theme .quiz-option {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(30, 41, 59, 0.1);
+    }
+
+    .quiz-option:hover {
+      background: rgba(59, 130, 246, 0.1);
+      border-color: #3b82f6;
+    }
+
+    .quiz-option.correct {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: #10b981;
+    }
+
+    .quiz-option.incorrect {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+    }
+
+    /* Footer */
+    .page-footer {
+      padding: 40px;
+      text-align: center;
+      background: rgba(2, 6, 23, 0.95);
+      color: #94a3b8;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin-top: 60px;
+      position: relative;
+      backdrop-filter: blur(10px);
+    }
+
+    .light-theme .page-footer {
+      background: rgba(248, 250, 252, 0.95);
+      border-top: 1px solid rgba(30, 41, 59, 0.1);
+    }
+
+    .page-footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .skills-container {
+        width: 90%;
+        margin: 40px auto 60px;
+      }
+      
+      .page-header {
+        padding: 80px 20px 40px;
+      }
+      
+      .page-header h1 {
+        font-size: 2.2rem;
+      }
+      
+      .skill-title {
+        font-size: 1.4rem;
+      }
+      
+      .skill-content {
+        font-size: 1rem;
+      }
+      
+      .skill-card {
+        padding: 25px;
+      }
+
+      .ai-panel {
+        width: calc(100% - 40px);
+        right: 20px;
+        left: 20px;
+        bottom: 90px;
+      }
+
+      .controls {
+        top: 10px;
+        right: 10px;
+      }
+
+      .progress-tracker {
+        display: none;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Controls -->
+<div class="controls">
+  <button class="control-btn active" data-lang="en">
+    <i class="fas fa-language"></i> EN
+  </button>
+  <button class="control-btn" data-lang="fr">
+    <i class="fas fa-language"></i> FR
+  </button>
+  <button class="control-btn" id="themeToggle">
+    <i class="fas fa-moon"></i> Dark
+  </button>
+</div>
+
+<!-- Progress Tracker -->
+<div class="progress-tracker" id="progressTracker">
+  <div class="progress-dot" data-skill="1" data-target="skill1"></div>
+  <div class="progress-dot" data-skill="2" data-target="skill2"></div>
+  <div class="progress-dot" data-skill="3" data-target="skill3"></div>
+  <div class="progress-dot" data-skill="4" data-target="skill4"></div>
+  <div class="progress-dot" data-skill="5" data-target="skill5"></div>
+</div>
+
+<!-- AI Assistant -->
+<button class="ai-assistant" id="aiAssistant">
+  <i class="fas fa-robot"></i>
+</button>
+
+<div class="ai-panel" id="aiPanel">
+  <div class="ai-header">
+    <h3><i class="fas fa-robot"></i> Learning Assistant</h3>
+  </div>
+  <div class="ai-content" id="aiContent">
+    <!-- AI messages will be inserted here -->
+  </div>
+</div>
+
+<!-- ========== HEADER ========== -->
+<header class="page-header">
+  <h1>Back-End Development Target Skills</h1>
+  <p style="margin-top: 20px; color: var(--text-secondary); font-size: 1.1rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+    Mastering the server-side technologies that power modern web applications
+  </p>
+  
+  <!-- Learning Features Badges -->
+  <div class="learning-features">
+    <div class="feature-badge">
+      <i class="fas fa-code"></i>
+    </div>
+    <div class="feature-badge">
+      <i class="fas fa-brain"></i>
+    </div>
+    <div class="feature-badge">
+      <i class="fas fa-language"></i>
+    </div>
+    <div class="feature-badge">
+      <i class="fas fa-moon"></i>
+    </div>
+    <div class="feature-badge">
+      <i class="fas fa-check-circle"></i>
+    </div>
+  </div>
+</header>
+
+<!-- ========== MAIN CONTENT ========== -->
+<main class="skills-container">
+  
+  <!-- Skill 1 -->
+  <div class="skill-card visible" id="skill1">
+    <div class="skill-title">
+      <span class="skill-number" data-skill="1">1</span>
+      <span class="skill-title-text" data-en="The Use of Server-Side Development Frameworks, API Development, and Web Services" data-fr="Utilisation des frameworks de développement côté serveur, développement d'API et services web">The Use of Server-Side Development Frameworks, API Development, and Web Services</span>
+    </div>
+    <div class="skill-content">
+      <p>Server-side development focuses on the logic that runs on a server rather than in a user's browser. Server-side frameworks (such as Django, Spring, Laravel, or Express) provide structured tools to handle common tasks like routing requests, managing databases, handling security, and processing user input. These frameworks save time, reduce errors, and encourage best practices by offering reusable components instead of writing everything from scratch.</p>
+      
+      <div class="skill-highlight">
+        API (Application Programming Interface) development allows different software systems to communicate with each other. An API defines rules for how one application can request data or services from another.
+      </div>
+      
+      <p>For example, a mobile app might use an API to request user data from a server. APIs are essential for building scalable systems, supporting multiple clients (web, mobile, desktop), and separating frontend and backend responsibilities.</p>
+      
+      <p>Web services are systems that expose APIs over the internet using standard protocols like HTTP. They allow applications written in different programming languages and running on different platforms to interact. Together, server-side frameworks, APIs, and web services form the backbone of modern web applications by enabling data processing, communication, and integration.</p>
+      
+      <!-- Code Visualization -->
+      <div class="code-visualization">
+        <div class="code-header">
+          <h4><i class="fas fa-code"></i> Example: REST API Endpoint</h4>
+        </div>
+        <div class="code-content">
+          <span class="code-keyword">// GET /api/users</span><br>
+          <span class="code-keyword">app</span>.<span class="code-keyword">get</span>(<span class="code-string">'/api/users'</span>, (<span class="code-keyword">req</span>, <span class="code-keyword">res</span>) => {<br>
+          &nbsp;&nbsp;<span class="code-keyword">const</span> users = <span class="code-keyword">await</span> User.<span class="code-keyword">findAll</span>();<br>
+          &nbsp;&nbsp;<span class="code-keyword">res</span>.<span class="code-keyword">json</span>({ <span class="code-string">success</span>: <span class="code-keyword">true</span>, <span class="code-string">data</span>: users });<br>
+          });<br><br>
+          <span class="code-comment">// Returns JSON data that frontend can use</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Skill 2 -->
+  <div class="skill-card" id="skill2">
+    <div class="skill-title">
+      <span class="skill-number" data-skill="2">2</span>
+      <span class="skill-title-text" data-en="Object-Oriented Programming: Reusing Software Components and Maintaining Clean Code" data-fr="Programmation Orientée Objet : Réutilisation des composants logiciels et maintien d'un code propre">Object-Oriented Programming: Reusing Software Components and Maintaining Clean Code</span>
+    </div>
+    <div class="skill-content">
+      <p>Object-Oriented Programming (OOP) is a programming paradigm based on the concept of objects, which bundle data (attributes) and behavior (methods) together. Core OOP principles include encapsulation, inheritance, polymorphism, and abstraction. These principles help developers create systems that are modular, reusable, and easier to understand.</p>
+      
+      <div class="skill-highlight">
+        Reusing software components is a key advantage of OOP. By designing classes that represent real-world concepts or system responsibilities, developers can reuse them across multiple projects or parts of the same application.
+      </div>
+      
+      <p>This reduces duplication and improves reliability since reused components are already tested.</p>
+      
+      <p>Maintaining clean code means writing code that is readable, well-structured, and easy to modify. Clean code follows naming conventions, avoids unnecessary complexity, and separates responsibilities clearly. OOP supports clean code by encouraging small, focused classes and methods, making software easier to debug, maintain, and extend over time.</p>
+      
+      <!-- Knowledge Check -->
+      <div class="knowledge-check">
+        <h4><i class="fas fa-question-circle"></i> Quick Knowledge Check</h4>
+        <p>Which OOP principle hides internal implementation details?</p>
+        <div class="quiz-options">
+          <div class="quiz-option" data-correct="true">Encapsulation</div>
+          <div class="quiz-option" data-correct="false">Inheritance</div>
+          <div class="quiz-option" data-correct="false">Polymorphism</div>
+          <div class="quiz-option" data-correct="false">Abstraction</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Skill 3 -->
+  <div class="skill-card" id="skill3">
+    <div class="skill-title">
+      <span class="skill-number" data-skill="3">3</span>
+      <span class="skill-title-text" data-en="Web Services: Objects, Standards, APIs, and Exchange Formats" data-fr="Services Web : Objets, Standards, API et Formats d'échange">Web Services: Objects, Standards, APIs, and Exchange Formats</span>
+    </div>
+    <div class="skill-content">
+      <p>Web services rely on several core concepts to function effectively. <strong>Objects</strong> represent structured data entities (such as users, products, or orders) that are exchanged between systems. These objects are typically serialized into a format that can be transmitted over a network.</p>
+      
+      <div class="skill-highlight">
+        <strong>Standards</strong> ensure that different systems can communicate reliably. Common standards include HTTP for communication, REST or SOAP for service design, and authentication standards for security.
+      </div>
+      
+      <p><strong>APIs</strong> define how clients interact with web services. They specify available operations, required inputs, and expected outputs. APIs act as contracts between systems, ensuring predictable behavior.</p>
+      
+      <p><strong>Exchange formats</strong> such as JSON and XML are used to transfer data between systems. JSON is lightweight and widely used in modern web applications, while XML is more structured and often used in enterprise systems. Together, objects, standards, APIs, and exchange formats make web services interoperable and scalable.</p>
+      
+      <!-- Code Visualization -->
+      <div class="code-visualization">
+        <div class="code-header">
+          <h4><i class="fas fa-exchange-alt"></i> JSON Data Exchange Example</h4>
+        </div>
+        <div class="code-content">
+          {<br>
+          &nbsp;&nbsp;<span class="code-string">"user"</span>: {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"id"</span>: <span class="code-keyword">12345</span>,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"name"</span>: <span class="code-string">"John Doe"</span>,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"email"</span>: <span class="code-string">"john@example.com"</span><br>
+          &nbsp;&nbsp;},<br>
+          &nbsp;&nbsp;<span class="code-string">"status"</span>: <span class="code-string">"success"</span>,<br>
+          &nbsp;&nbsp;<span class="code-string">"timestamp"</span>: <span class="code-string">"2024-01-15T10:30:00Z"</span><br>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Skill 4 -->
+  <div class="skill-card" id="skill4">
+    <div class="skill-title">
+      <span class="skill-number" data-skill="4">4</span>
+      <span class="skill-title-text" data-en="Discovering Server-Side Frameworks" data-fr="Découverte des Frameworks Côté Serveur">Discovering Server-Side Frameworks</span>
+    </div>
+    <div class="skill-content">
+      <p>Discovering server-side frameworks involves understanding their purpose, features, and use cases. A server-side framework provides a foundation for building backend applications efficiently by handling repetitive tasks like request handling, session management, and database interaction.</p>
+      
+      <div class="skill-highlight">
+        Different frameworks are designed for different needs. Some focus on rapid development, others on performance, scalability, or enterprise-level security.
+      </div>
+      
+      <p>Learning server-side frameworks helps developers understand architectural patterns such as Model-View-Controller (MVC) and how applications are structured in real-world environments.</p>
+      
+      <p>By exploring multiple frameworks, developers gain insight into best practices, trade-offs, and how to choose the right tool for a given project. This knowledge is critical for building robust and maintainable server-side applications.</p>
+      
+      <!-- Knowledge Check -->
+      <div class="knowledge-check">
+        <h4><i class="fas fa-question-circle"></i> Framework Selection</h4>
+        <p>Which framework is known for rapid prototyping in Python?</p>
+        <div class="quiz-options">
+          <div class="quiz-option" data-correct="true">Django</div>
+          <div class="quiz-option" data-correct="false">Spring Boot</div>
+          <div class="quiz-option" data-correct="false">Express.js</div>
+          <div class="quiz-option" data-correct="false">Laravel</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Skill 5 -->
+  <div class="skill-card" id="skill5">
+    <div class="skill-title">
+      <span class="skill-number" data-skill="5">5</span>
+      <span class="skill-title-text" data-en="Recognizing and Using Design Patterns (Factory Method, Adapter, Observer) – Critical Learning Objective" data-fr="Reconnaissance et utilisation des Design Patterns (Méthode Factory, Adaptateur, Observateur) – Objectif d'apprentissage critique">Recognizing and Using Design Patterns (Factory Method, Adapter, Observer) – Critical Learning Objective</span>
+    </div>
+    <div class="skill-content">
+      <p>Design patterns are proven solutions to common software design problems. They are not code templates but reusable ideas that guide how code should be structured. Recognizing and using design patterns improves code flexibility, readability, and scalability.</p>
+      
+      <div class="skill-highlight">
+        <strong>The Factory Method pattern</strong> is used to create objects without specifying the exact class to instantiate. It promotes loose coupling and makes systems easier to extend.
+      </div>
+      
+      <p><strong>The Adapter pattern</strong> allows incompatible interfaces to work together. It acts as a bridge between two systems without changing their existing code.</p>
+      
+      <p><strong>The Observer pattern</strong> defines a one-to-many relationship where multiple objects are notified automatically when another object's state changes. This is commonly used in event-driven systems.</p>
+      
+      <p>Understanding and applying design patterns is a critical learning objective because it helps developers think at a higher architectural level, communicate ideas effectively with other developers, and build systems that are easier to maintain and evolve.</p>
+      
+      <!-- Code Visualization -->
+      <div class="code-visualization">
+        <div class="code-header">
+          <h4><i class="fas fa-cogs"></i> Factory Method Pattern</h4>
+        </div>
+        <div class="code-content">
+          <span class="code-keyword">interface</span> Document {<br>
+          &nbsp;&nbsp;<span class="code-keyword">open</span>();<br>
+          }<br><br>
+          <span class="code-keyword">class</span> PDFDocument <span class="code-keyword">implements</span> Document {<br>
+          &nbsp;&nbsp;<span class="code-keyword">open</span>() { /* Open PDF */ }<br>
+          }<br><br>
+          <span class="code-keyword">class</span> DocumentFactory {<br>
+          &nbsp;&nbsp;<span class="code-keyword">createDocument</span>(type) {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">if</span> (type === <span class="code-string">'pdf'</span>) <span class="code-keyword">return new</span> PDFDocument();<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// Factory handles creation logic</span><br>
+          &nbsp;&nbsp;}<br>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ========== FOOTER ========== -->
+<footer class="page-footer">
+  <div style="max-width: 600px; margin: 0 auto;">
+    <h3 style="color: var(--text-primary); margin-bottom: 20px;">Back-End Development Target Skills</h3>
+    <p style="margin-bottom: 20px; color: var(--text-secondary);">A comprehensive overview of essential server-side development concepts and technologies for modern web applications.</p>
+    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 30px;">
+      <i class="fab fa-js" style="font-size: 1.5rem; color: var(--text-secondary);"></i>
+      <i class="fab fa-python" style="font-size: 1.5rem; color: var(--text-secondary);"></i>
+      <i class="fab fa-java" style="font-size: 1.5rem; color: var(--text-secondary);"></i>
+      <i class="fas fa-code" style="font-size: 1.5rem; color: var(--text-secondary);"></i>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ========== IMPLEMENTATION 1: LANGUAGE SWITCHING ==========
+  let currentLanguage = 'en';
+  
+  function setupLanguageSwitching() {
+    const languageButtons = document.querySelectorAll('[data-lang]');
+    
+    languageButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const lang = button.getAttribute('data-lang');
+        switchLanguage(lang);
+        
+        // Update active button
+        languageButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+      });
+    });
+  }
+  
+  function switchLanguage(lang) {
+    currentLanguage = lang;
+    
+    // Update all translatable elements
+    document.querySelectorAll('[data-en]').forEach(element => {
+      const text = element.getAttribute(`data-${lang}`);
+      if (text) element.textContent = text;
+    });
+    
+    // Update page title
+    if (lang === 'fr') {
+      document.title = 'Compétences Ciblées en Développement Back-End';
+      document.querySelector('.page-header h1').textContent = 'Compétences Ciblées en Développement Back-End';
+      document.querySelector('.page-header p').textContent = 'Maîtrise des technologies côté serveur qui alimentent les applications web modernes';
+      document.querySelector('.page-footer h3').textContent = 'Compétences Ciblées en Développement Back-End';
+      document.querySelector('.page-footer p').textContent = 'Un aperçu complet des concepts et technologies essentiels de développement côté serveur pour les applications web modernes.';
+    } else {
+      document.title = 'Back-End Development Target Skills';
+      document.querySelector('.page-header h1').textContent = 'Back-End Development Target Skills';
+      document.querySelector('.page-header p').textContent = 'Mastering the server-side technologies that power modern web applications';
+      document.querySelector('.page-footer h3').textContent = 'Back-End Development Target Skills';
+      document.querySelector('.page-footer p').textContent = 'A comprehensive overview of essential server-side development concepts and technologies for modern web applications.';
+    }
+    
+    // Update AI panel if open
+    updateAIContent();
+  }
+  
+  // ========== IMPLEMENTATION 2: DARK/LIGHT THEME ==========
+  function setupThemeToggle() {
+    const themeToggle = document.getElementById('themeToggle');
+    const icon = themeToggle.querySelector('i');
+    
+    // Check for saved theme or system preference
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'light' || (!savedTheme && !systemPrefersDark)) {
+      enableLightTheme();
+    }
+    
+    themeToggle.addEventListener('click', () => {
+      if (document.body.classList.contains('light-theme')) {
+        disableLightTheme();
+      } else {
+        enableLightTheme();
+      }
+    });
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        if (e.matches) {
+          disableLightTheme();
+        } else {
+          enableLightTheme();
+        }
+      }
+    });
+  }
+  
+  function enableLightTheme() {
+    document.body.classList.add('light-theme');
+    const themeToggle = document.getElementById('themeToggle');
+    const icon = themeToggle.querySelector('i');
+    icon.className = 'fas fa-sun';
+    themeToggle.innerHTML = '<i class="fas fa-sun"></i> Light';
+    localStorage.setItem('theme', 'light');
+  }
+  
+  function disableLightTheme() {
+    document.body.classList.remove('light-theme');
+    const themeToggle = document.getElementById('themeToggle');
+    const icon = themeToggle.querySelector('i');
+    icon.className = 'fas fa-moon';
+    themeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark';
+    localStorage.setItem('theme', 'dark');
+  }
+  
+  // ========== IMPLEMENTATION 3: WORKING AI ASSISTANT ==========
+  const aiKnowledge = {
+    en: {
+      '1': {
+        title: 'Server-Side Frameworks',
+        explanation: 'These are pre-built software structures that handle common backend tasks like database operations, routing, and security.',
+        examples: [
+          'Think of frameworks like Django or Express as construction kits for buildings. They provide the scaffolding so you can focus on the unique features of your app.',
+          'Real-world example: When you log into a website, the framework handles authentication, session management, and database queries behind the scenes.'
+        ]
+      },
+      '2': {
+        title: 'Object-Oriented Programming',
+        explanation: 'A programming style based on objects containing both data and methods to operate on that data.',
+        examples: [
+          'Imagine a Car class. All cars have properties (color, model) and behaviors (drive, brake). Different car types inherit from this base class.',
+          'This makes code reusable: a User class can be used in both login systems and profile management.'
+        ]
+      },
+      '3': {
+        title: 'Web Services Architecture',
+        explanation: 'The standardized way different software systems communicate over the internet.',
+        examples: [
+          'Like international shipping: Packages (data) follow standards (protocols), use specific forms (APIs), and are labeled in formats everyone understands (JSON/XML).',
+          'When you check weather on your phone, it\'s using web services that provide data in a standard format your app can understand.'
+        ]
+      },
+      '4': {
+        title: 'Framework Selection',
+        explanation: 'Choosing the right tool for your specific project requirements.',
+        examples: [
+          'For a quick prototype: Django or Ruby on Rails (rapid development)',
+          'For enterprise applications: Spring or .NET (security, scalability)',
+          'For real-time apps: Node.js with Express (fast, non-blocking I/O)'
+        ]
+      },
+      '5': {
+        title: 'Design Patterns',
+        explanation: 'Proven solutions to common software design problems.',
+        examples: [
+          'Factory Pattern: Like a car factory - you order a "car" without knowing exactly how it\'s built.',
+          'Adapter Pattern: Like a power plug adapter - makes incompatible interfaces work together.',
+          'Observer Pattern: Like a newsletter subscription - subscribers get notified when new content arrives.'
+        ]
+      }
+    },
+    fr: {
+      '1': {
+        title: 'Frameworks Côté Serveur',
+        explanation: 'Structures logicielles pré-construites qui gèrent les tâches backend courantes comme les opérations de base de données, le routage et la sécurité.',
+        examples: [
+          'Pensez aux frameworks comme Django ou Express comme des kits de construction pour bâtiments. Ils fournissent l\'échafaudage pour que vous puissiez vous concentrer sur les fonctionnalités uniques de votre application.',
+          'Exemple concret : Lorsque vous vous connectez à un site web, le framework gère l\'authentification, la gestion des sessions et les requêtes de base de données en arrière-plan.'
+        ]
+      },
+      '2': {
+        title: 'Programmation Orientée Objet',
+        explanation: 'Un style de programmation basé sur des objets contenant à la fois des données et des méthodes pour manipuler ces données.',
+        examples: [
+          'Imaginez une classe Voiture. Toutes les voitures ont des propriétés (couleur, modèle) et des comportements (conduire, freiner). Différents types de voitures héritent de cette classe de base.',
+          'Cela rend le code réutilisable : une classe Utilisateur peut être utilisée à la fois dans les systèmes de connexion et la gestion de profil.'
+        ]
+      },
+      '3': {
+        title: 'Architecture des Services Web',
+        explanation: 'La manière standardisée dont différents systèmes logiciels communiquent sur Internet.',
+        examples: [
+          'Comme l\'expédition internationale : Les colis (données) suivent des normes (protocoles), utilisent des formulaires spécifiques (API) et sont étiquetés dans des formats que tout le monde comprend (JSON/XML).',
+          'Lorsque vous consultez la météo sur votre téléphone, cela utilise des services web qui fournissent des données dans un format standard que votre application peut comprendre.'
+        ]
+      },
+      '4': {
+        title: 'Sélection de Framework',
+        explanation: 'Choisir le bon outil pour les exigences spécifiques de votre projet.',
+        examples: [
+          'Pour un prototype rapide : Django ou Ruby on Rails (développement rapide)',
+          'Pour les applications d\'entreprise : Spring ou .NET (sécurité, évolutivité)',
+          'Pour les applications en temps réel : Node.js avec Express (I/O rapide et non bloquant)'
+        ]
+      },
+      '5': {
+        title: 'Design Patterns',
+        explanation: 'Solutions éprouvées à des problèmes courants de conception logicielle.',
+        examples: [
+          'Pattern Factory : Comme une usine automobile - vous commandez une "voiture" sans savoir exactement comment elle est construite.',
+          'Pattern Adaptateur : Comme un adaptateur de prise électrique - fait travailler ensemble des interfaces incompatibles.',
+          'Pattern Observateur : Comme un abonnement à une newsletter - les abonnés sont notifiés quand du nouveau contenu arrive.'
+        ]
+      }
+    }
+  };
+  
+  function setupAIAssistant() {
+    const aiBtn = document.getElementById('aiAssistant');
+    const aiPanel = document.getElementById('aiPanel');
+    
+    aiBtn.addEventListener('click', () => {
+      aiPanel.classList.toggle('active');
+      
+      if (aiPanel.classList.contains('active') && !document.getElementById('aiWelcome')) {
+        showAIWelcome();
+      }
+    });
+    
+    // Close AI panel when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!aiPanel.contains(e.target) && !aiBtn.contains(e.target)) {
+        aiPanel.classList.remove('active');
+      }
+    });
+    
+    // Skill number clicks trigger AI explanations
+    document.querySelectorAll('.skill-number').forEach(number => {
+      number.addEventListener('click', (e) => {
+        const skillNum = number.getAttribute('data-skill');
+        showSkillExplanation(skillNum);
+        e.stopPropagation();
+      });
+    });
+  }
+  
+  function showAIWelcome() {
+    const aiContent = document.getElementById('aiContent');
+    const welcomeHTML = `
+      <div class="ai-message" id="aiWelcome">
+        <h4>👋 ${currentLanguage === 'en' ? 'Hello! I\'m your Learning Assistant' : 'Bonjour ! Je suis votre Assistant d\'Apprentissage'}</h4>
+        <p>${currentLanguage === 'en' 
+          ? 'I can help explain complex backend concepts in simple terms. Click on the skill numbers (1-5) for detailed explanations with real-world examples!' 
+          : 'Je peux aider à expliquer des concepts backend complexes en termes simples. Cliquez sur les numéros de compétences (1-5) pour des explications détaillées avec des exemples concrets !'}</p>
+        <div class="ai-example">
+          ${currentLanguage === 'en' 
+            ? 'Try it now: Click on any skill number above!' 
+            : 'Essayez maintenant : Cliquez sur n\'importe quel numéro de compétence ci-dessus !'}
+        </div>
+      </div>
+    `;
+    
+    aiContent.innerHTML = welcomeHTML;
+  }
+  
+  function showSkillExplanation(skillNum) {
+    const aiContent = document.getElementById('aiContent');
+    const knowledge = aiKnowledge[currentLanguage][skillNum];
+    
+    if (!knowledge) return;
+    
+    const explanationHTML = `
+      <div class="ai-message">
+        <h4>📚 ${currentLanguage === 'en' ? 'Skill' : 'Compétence'} ${skillNum}: ${knowledge.title}</h4>
+        <p>${knowledge.explanation}</p>
+        ${knowledge.examples.map(example => `
+          <div class="ai-example">
+            ${example}
+          </div>
+        `).join('')}
+      </div>
+    `;
+    
+    aiContent.innerHTML = explanationHTML;
+    
+    // Show the panel if it's not already open
+    document.getElementById('aiPanel').classList.add('active');
+    
+    // Scroll to the skill
+    document.getElementById(`skill${skillNum}`).scrollIntoView({ behavior: 'smooth' });
+  }
+  
+  function updateAIContent() {
+    if (document.getElementById('aiPanel').classList.contains('active')) {
+      if (document.getElementById('aiWelcome')) {
+        showAIWelcome();
+      }
+    }
+  }
+  
+  // ========== IMPLEMENTATION 4: PROGRESS TRACKER ==========
+  function setupProgressTracker() {
+    const progressDots = document.querySelectorAll('.progress-dot');
+    const skillCards = document.querySelectorAll('.skill-card');
+    
+    // Set up dot clicks
+    progressDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const targetId = dot.getAttribute('data-target');
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+    
+    // Update active dot on scroll
+    function updateProgressTracker() {
+      const scrollPosition = window.scrollY + window.innerHeight / 3;
+      
+      skillCards.forEach((card, index) => {
+        const cardTop = card.offsetTop;
+        const cardBottom = cardTop + card.offsetHeight;
+        
+        if (scrollPosition >= cardTop && scrollPosition <= cardBottom) {
+          progressDots.forEach(dot => dot.classList.remove('active'));
+          progressDots[index].classList.add('active');
+        }
+      });
+    }
+    
+    window.addEventListener('scroll', updateProgressTracker);
+    updateProgressTracker(); // Initial call
+  }
+  
+  // ========== IMPLEMENTATION 5: KNOWLEDGE CHECK QUIZZES ==========
+  function setupKnowledgeChecks() {
+    const quizOptions = document.querySelectorAll('.quiz-option');
+    
+    quizOptions.forEach(option => {
+      option.addEventListener('click', function() {
+        const isCorrect = this.getAttribute('data-correct') === 'true';
+        
+        // Remove previous states
+        quizOptions.forEach(opt => {
+          opt.classList.remove('correct', 'incorrect');
+        });
+        
+        // Add current state
+        this.classList.add(isCorrect ? 'correct' : 'incorrect');
+        
+        // Show feedback
+        if (isCorrect) {
+          if (currentLanguage === 'en') {
+            showAIMessage('✅ Correct! Well done!', 'Great job! This concept is fundamental to understanding OOP principles.');
+          } else {
+            showAIMessage('✅ Correct ! Bien joué !', 'Excellent travail ! Ce concept est fondamental pour comprendre les principes de la POO.');
+          }
+        } else {
+          if (currentLanguage === 'en') {
+            showAIMessage('❌ Not quite right', 'Remember: Encapsulation bundles data with methods and restricts direct access to some components.');
+          } else {
+            showAIMessage('❌ Pas tout à fait juste', 'Rappelez-vous : L\'encapsulation regroupe les données avec les méthodes et restreint l\'accès direct à certains composants.');
+          }
+        }
+      });
+    });
+  }
+  
+  function showAIMessage(title, message) {
+    const aiContent = document.getElementById('aiContent');
+    const messageHTML = `
+      <div class="ai-message">
+        <h4>${title}</h4>
+        <p>${message}</p>
+      </div>
+    `;
+    
+    aiContent.innerHTML = messageHTML;
+    document.getElementById('aiPanel').classList.add('active');
+  }
+  
+  // ========== SCROLL ANIMATIONS ==========
+  function setupScrollAnimations() {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+    
+    document.querySelectorAll('.skill-card').forEach(card => {
+      observer.observe(card);
+    });
+  }
+  
+  // ========== KEYBOARD SHORTCUTS ==========
+  function setupKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+      // Escape closes AI panel
+      if (e.key === 'Escape') {
+        document.getElementById('aiPanel').classList.remove('active');
+      }
+      
+      // Number keys 1-5 show skill explanations
+      if (e.key >= '1' && e.key <= '5' && !e.ctrlKey && !e.altKey) {
+        showSkillExplanation(e.key);
+      }
+      
+      // L toggles language
+      if (e.key === 'l' && e.ctrlKey) {
+        e.preventDefault();
+        const newLang = currentLanguage === 'en' ? 'fr' : 'en';
+        switchLanguage(newLang);
+        
+        // Update active button
+        document.querySelectorAll('.control-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.getAttribute('data-lang') === newLang);
+        });
+      }
+      
+      // T toggles theme
+      if (e.key === 't' && e.ctrlKey) {
+        e.preventDefault();
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.click();
+      }
+    });
+  }
+  
+  // ========== INITIALIZE EVERYTHING ==========
+  document.addEventListener('DOMContentLoaded', () => {
+    setupLanguageSwitching();
+    setupThemeToggle();
+    setupAIAssistant();
+    setupProgressTracker();
+    setupKnowledgeChecks();
+    setupScrollAnimations();
+    setupKeyboardShortcuts();
+    
+    // Show welcome message after a short delay
+    setTimeout(() => {
+      if (!localStorage.getItem('welcomeShown')) {
+        document.getElementById('aiPanel').classList.add('active');
+        showAIWelcome();
+        localStorage.setItem('welcomeShown', 'true');
+      }
+    }, 1000);
+  });
+</script>
+</body>
+</html>

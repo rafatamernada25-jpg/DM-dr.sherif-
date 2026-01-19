@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DigitalMarketing – Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ========== CONFIGURATION GÉNÉRALE ========== */
+    :root {
+      --primary-blue: #3b82f6;
+      --primary-purple: #7c3aed;
+      --dark-bg: #020617;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --border-light: rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at center, #1e1b4b 0%, #020617 100%);
+      color: #e5e7eb;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ========== NAVBAR & LOGO ========== */
+    .navbar {
+      background: rgba(2, 6, 23, 0.8);
+      backdrop-filter: blur(12px);
+      padding: 15px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-light);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    /* CORRECTION LOGO */
+    .logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 2px solid var(--primary-blue);
+    }
+
+    .nav-left h2 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: 1px;
+    }
+
+    /* ========== HERO ========== */
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      line-height: 1.1;
+      margin-bottom: 20px;
+      background: linear-gradient(to bottom, #fff 30%, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 800;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #94a3b8;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ========== SELECTION SECTION ========== */
+    .selection-section {
+      padding: 40px 5% 100px;
+      text-align: center;
+    }
+
+    .selection-title {
+      font-size: 1.5rem;
+      margin-bottom: 50px;
+      color: var(--primary-blue);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+
+    /* ========== CAROUSEL VIEW ========== */
+    .carousel-view {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      perspective: 1000px;
+    }
+
+    .year-slide {
+      background: var(--card-bg);
+      border: 1px solid var(--border-light);
+      padding: 40px 30px;
+      border-radius: 30px;
+      text-decoration: none;
+      color: white;
+      width: 280px;
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      backdrop-filter: blur(10px);
+      position: relative;
+    }
+
+    .year-slide .icon {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    .year-slide .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #94a3b8;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .year-slide .name {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 15px;
+    }
+
+    .year-slide .description {
+      font-size: 0.95rem;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+
+    /* État Actif / Hover */
+    .year-slide:hover, .year-slide.active {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--primary-blue);
+      transform: translateY(-15px) scale(1.05);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.2);
+    }
+
+    .year-slide.active {
+      border-color: var(--primary-purple);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(124, 58, 237, 0.2);
+    }
+
+    /* Arches / Navigation */
+    .nav-arrows {
+      margin-top: 50px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .arrow {
+      background: var(--card-bg);
+      border: 1px solid var(--border-light);
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.5rem;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .arrow:hover {
+      background: var(--primary-blue);
+      border-color: var(--primary-blue);
+      transform: scale(1.1);
+    }
+
+    /* Animation au chargement */
+    .year-slide {
+      animation: slideUp 0.8s ease-out forwards;
+      opacity: 0;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="logo.jpeg" alt="Logo" class="logo">
+    <h2>Dr.Sherif</h2>
+  </div>
+</nav>
+
+<header class="hero">
+  <h1>Dr Sherif <br>in Digital Marketing</h1>
+  <p>Interactive Academic Learning Platform</p>
+</header>
+
+<div class="selection-section">
+    <h1 class="selection-title">Select Your Academic Level</h1>
+
+    <div class="carousel-view">
+      <a href="year1.html" class="year-slide" style="animation-delay: 0.1s;">
+        <span class="icon">🌱</span>
+        <span class="label">Foundation</span>
+        <div class="name">Year 1</div>
+        <p class="description">Master the basics of marketing and data structure.</p>
+      </a>
+
+      <a href="year2.html" class="year-slide active" style="animation-delay: 0.3s;">
+        <span class="icon">🚀</span>
+        <span class="label">Professional</span>
+        <div class="name">Year 2</div>
+        <p class="description">SEO, Copywriting & Advanced Analytics</p>
+      </a>
+
+      <a href="home-l3.html" class="year-slide" style="animation-delay: 0.5s;">
+        <span class="icon">🏆</span>
+        <span class="label">Specialized</span>
+        <div class="name">Year 3</div>
+        <p class="description">Strategic Management & Career Planning</p>
+      </a>
+    </div>
+
+    <div class="nav-arrows">
+       <button class="arrow" onclick="scrollCarousel(-1)">❮</button>
+       <button class="arrow" onclick="scrollCarousel(1)">❯</button>
+    </div>
+</div>
+
+<script>
+  // Petite fonction pour le défilement (optionnel si tu as beaucoup de cartes)
+  function scrollCarousel(direction) {
+    const view = document.querySelector('.carousel-view');
+    view.scrollBy({ left: direction * 300, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>

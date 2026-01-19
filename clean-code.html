@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson - Clean Code & SRP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========== 1. VARIABLES & RESET ========== */
+        :root {
+            --primary-purple: #7c3aed;
+            --primary-blue: #3b82f6;
+            --dark-bg: #030712;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border-light: rgba(255, 255, 255, 0.1);
+            --text-gray: #cbd5e1;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top, #1e1b4b, #020617);
+            color: #e5e7eb;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ========== 2. NAVIGATION ========== */
+        .navbar {
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 20px 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+        }
+
+        /* ========== 3. HERO SECTION ========== */
+        .hero {
+            text-align: center;
+        }
+
+        .english-word {
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-weight: 800;
+            margin: 0;
+        }
+
+        /* ========== 4. PRESENTATION CARDS ========== */
+        .presentation-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 35px;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+        }
+
+        .presentation-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            border-color: var(--primary-purple);
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.15);
+        }
+
+        /* Le chiffre géant en arrière-plan */
+        .big-number {
+            font-size: 6rem;
+            font-weight: 800;
+            opacity: 0.05;
+            position: absolute;
+            right: 30px;
+            top: 0;
+            color: var(--primary-purple);
+            pointer-events: none;
+        }
+
+        /* Le petit point lumineux */
+        .logic-step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--primary-purple);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--primary-purple);
+        }
+
+        /* ========== 5. ANIMATIONS ========== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .presentation-card {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        /* Delays pour l'apparition séquentielle */
+        .presentation-card:nth-child(1) { animation-delay: 0.2s; }
+        .presentation-card:nth-child(2) { animation-delay: 0.4s; }
+        .presentation-card:nth-child(3) { animation-delay: 0.6s; }
+
+    </style>
+</head>
+<body class="module-page">
+    <nav class="navbar">
+        <a href="cours2(Y2).html" style="color: white; text-decoration: none; font-weight: 800; letter-spacing: 1px;">← EXIT LESSON</a>
+    </nav>
+
+    <header class="hero" style="padding: 100px 20px;">
+        <div class="english-word" style="letter-spacing: 5px; color: var(--primary-purple);">CRAFTSMANSHIP</div>
+        <h1 style="font-size: 4rem; background: linear-gradient(to right, #fff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">CLEAN CODE</h1>
+        <p style="font-size: 1.5rem; max-width: 700px; margin: 20px auto;">"Code is read much more often than it is written."</p>
+    </header>
+
+    
+
+    <main class="main-container" style="max-width: 900px; margin: 0 auto; padding-bottom: 100px;">
+        
+        <section class="presentation-card">
+            <div class="big-number">01</div>
+            <div class="logic-step">
+                <div class="status-dot"></div>
+                <h2 style="margin:0; color: var(--primary-purple);">SRP: Single Responsibility</h2>
+            </div>
+            <p style="font-size: 1.2rem; line-height: 1.6; color: #cbd5e1;">
+                A component or function should have <strong>one, and only one, reason to change</strong>. If a module handles logic, database, and UI at the same time, it becomes fragile and hard to test.
+            </p>
+        </section>
+
+        <section class="presentation-card">
+            <div class="big-number">02</div>
+            <div class="logic-step">
+                <div class="status-dot"></div>
+                <h2 style="margin:0; color: var(--primary-purple);">Meaningful Naming</h2>
+            </div>
+            <p style="font-size: 1.2rem; line-height: 1.6; color: #cbd5e1;">
+                Names should reveal intent. Avoid cryptic variables like <i>"data"</i> or <i>"temp"</i>. Clean code acts as its own documentation, making comments almost unnecessary.
+            </p>
+        </section>
+
+        <section class="presentation-card">
+            <div class="big-number">03</div>
+            <div class="logic-step">
+                <div class="status-dot"></div>
+                <h2 style="margin:0; color: var(--primary-purple);">Eliminate Dead Code</h2>
+            </div>
+            <p style="font-size: 1.2rem; line-height: 1.6; color: #cbd5e1;">
+                Commented-out code is digital noise. According to your course, "we might need this later" leads to hoarding. Trust your <strong>Version Control (Git)</strong> to remember the past; keep your present code clean.
+            </p>
+        </section>
+
+    </main>
+</body>
+</html>

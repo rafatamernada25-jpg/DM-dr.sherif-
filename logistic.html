@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson - System Logic & Simplicity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ========== CONFIGURATION DU THÈME VERT ========== */
+        :root {
+            --accent-green: #10b981;
+            --dark-bg: #020617;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border-light: rgba(255, 255, 255, 0.1);
+            --text-gray: #cbd5e1;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top, #064e3b, #020617);
+            color: #e5e7eb;
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ========== NAVIGATION ========== */
+        .navbar {
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 20px 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        /* ========== HERO SECTION ========== */
+        .hero {
+            text-align: center;
+        }
+
+        .english-word {
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-weight: 800;
+            margin: 0;
+        }
+
+        /* ========== CARDS LOGIC ========== */
+        .main-container {
+            padding: 0 20px 100px;
+        }
+
+        .presentation-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-light);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .presentation-card:nth-child(1) { animation-delay: 0.2s; }
+        .presentation-card:nth-child(2) { animation-delay: 0.4s; }
+        .presentation-card:nth-child(3) { animation-delay: 0.6s; }
+
+        .presentation-card:hover {
+            border-color: var(--accent-green);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15);
+            transform: scale(1.02);
+        }
+
+        .big-number {
+            font-size: 6rem;
+            font-weight: 800;
+            opacity: 0.05;
+            position: absolute;
+            right: 20px;
+            top: -10px;
+            color: var(--accent-green);
+            user-select: none;
+        }
+
+        .logic-step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--accent-green);
+            animation: pulseGreen 2s infinite;
+        }
+
+        @keyframes pulseGreen {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.6; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        strong { color: #fff; }
+
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: #4b5563;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-light);
+        }
+    </style>
+</head>
+<body class="module-page">
+    <nav class="navbar">
+        <a href="cours2.html" style="color: white; text-decoration: none; font-weight: 800; letter-spacing: 1px;">← EXIT LESSON</a>
+    </nav>
+
+    <header class="hero" style="padding: 100px 20px;">
+        <div class="english-word" style="letter-spacing: 5px; color: var(--accent-green);">SYSTEM ARCHITECTURE</div>
+        <h1 style="font-size: 4rem; background: linear-gradient(to right, #fff, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">LOGIC & SIMPLICITY</h1>
+        <p style="font-size: 1.5rem; max-width: 700px; margin: 20px auto;">"Simplicity is the ultimate sophistication."</p>
+    </header>
+
+    
+
+    <main class="main-container" style="max-width: 900px; margin: 0 auto; padding-bottom: 100px;">
+        
+        <section class="presentation-card">
+            <div class="big-number">01</div>
+            <div class="logic-step">
+                <div class="status-dot"></div>
+                <h2 style="margin:0; color: var(--accent-green);">KISS: Keep It Simple, Stupid</h2>
+            </div>
+            <p style="font-size: 1.2rem; line-height: 1.6; color: #cbd5e1;">
+                Systems work best if they are kept simple rather than made complicated. Avoid over-engineering solutions. Simpler code is not only easier to write but significantly <strong>easier to maintain and debug</strong>.
+            </p>
+        </section>
+
+        <section class="presentation-card">
+            <div class="big-number">02</div>
+            <div class="logic-step">
+                <div class="status-dot"></div>
+                <h2 style="margin:0; color: var(--accent-green);">YAGNI: You Ain't Gonna Need It</h2>
+            </div>
+            <p style="font-size: 1.2rem; line-height: 1.6; color: #cbd5e1;">
+                Do not add functionality until it is necessary. Based on your course document, speculative features create technical debt and complexity that often never gets used. Focus on current requirements first.
+            </p>
+        </section>
+
+        <section class="presentation-card">
+            <div class="big-number">03</div>
+            <div class="logic-step">
+                <div class="status-dot"></div>
+                <h2 style="margin:0; color: var(--accent-green);">Cohesion & Coupling</h2>
+            </div>
+            <p style="font-size: 1.2rem; line-height: 1.6; color: #cbd5e1;">
+                Aim for <strong>High Cohesion</strong> (related code stays together) and <strong>Low Coupling</strong> (components are independent). This ensures that changing one part of the system doesn't cause a "domino effect" of bugs elsewhere.
+            </p>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p>Interactive Lesson — Back-end Development Course</p>
+    </footer>
+</body>
+</html>

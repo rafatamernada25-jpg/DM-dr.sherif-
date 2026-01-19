@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 02 - Front-end Development</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #020617;
+            --primary-blue: #3b82f6;
+            --accent-pink: #ec4899; /* Couleur spécifique au Front-end */
+            --accent-orange: #f59e0b;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: white;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            padding: 20px 5%;
+            background: rgba(0,0,0,0.2);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .english-word {
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: var(--accent-pink);
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin: 0;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+
+        /* TIMELINE STRUCTURE */
+        .timeline-container {
+            max-width: 800px;
+            margin: 40px auto;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        /* Ligne verticale de la timeline */
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 31px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent-pink), var(--primary-blue), var(--accent-orange));
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .timeline-dot {
+            min-width: 24px;
+            height: 24px;
+            background: var(--bg-color);
+            border: 4px solid var(--accent-pink);
+            border-radius: 50%;
+            z-index: 2;
+            margin-right: 30px;
+            margin-top: 25px;
+        }
+
+        .timeline-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: white;
+            width: 100%;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .timeline-card:hover {
+            transform: translateX(10px);
+            background: rgba(255,255,255,0.08);
+            border-color: var(--accent-pink);
+        }
+
+        .timeline-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.3rem;
+        }
+
+        .timeline-card p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+
+<body class="module-page">
+    <nav class="navbar">
+        <a href="year2-sem2.html" style="color: white; text-decoration: none; font-weight: 800; letter-spacing: 1px;">← EXIT LESSON</a>
+    </nav>
+
+   <header class="hero">
+        <div class="english-word">SYLLABUS</div>
+        <h1>Front-end Path</h1>
+        <p>Master the art of User Interfaces and Experience</p>
+    </header>
+
+    <main class="timeline-container">
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <a href="dynamiccontent(FE-Y2).html" class="timeline-card">
+                <h3>01. Dynamic Architecture & Content Templates</h3>
+                 <p>Master modular design by separating HTML/CSS from data using placeholders, master templates, and real-time integration.</p>
+            </a>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-dot" style="border-color: var(--primary-blue);"></div>
+            <a href="Event-DrivenLogic(FE-Y2).html" class="timeline-card">
+                <h3>02. Event-Driven Logic</h3>
+                <p>Master non-blocking code to keep your apps responsive. Explore the Event Loop architecture and master Promises and Async/Await to handle background tasks like a pro.</p>
+            </a>
+        </div>
+        
+        <div class="timeline-item">
+            <div class="timeline-dot" style="border-color: var(--accent-orange);"></div>
+            <a href="masteringhttp.html" class="timeline-card">
+                <h3>03. Mastering HTTP Requests.</h3>
+                <p>Handling dynamic data, props, and building modular reusable UI components.</p>   
+            </a>
+        </div>
+    </main>    
+
+</body>
+</html>

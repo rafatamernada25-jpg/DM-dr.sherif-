@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 01 - Back-end Development</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ========== GLOBAL THEME ========== */
+        :root {
+            --primary-blue: #3b82f6;
+            --dark-bg: #020617;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border-light: rgba(255, 255, 255, 0.1);
+            --text-main: #e5e7eb;
+            --text-dim: #94a3b8;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top, #1e1b4b, #020617);
+            color: var(--text-main);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 20px 5%;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+        }
+        .exit-link { color: var(--text-dim); text-decoration: none; font-weight: 700; font-size: 0.9rem; }
+
+        .hero { text-align: center; padding: 60px 20px; }
+        .hero h1 { font-size: 3rem; font-weight: 800; margin: 10px 0; background: linear-gradient(to right, #fff, var(--primary-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .module-grid {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            gap: 20px;
+        }
+
+        .topic-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            padding: 25px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .topic-card:hover:not(.locked) {
+            border-color: var(--primary-blue);
+            background: rgba(59, 130, 246, 0.08);
+            transform: translateY(-5px);
+        }
+        .locked { opacity: 0.5; cursor: default; }
+        .badge { color: var(--primary-blue); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+        .topic-info h3 { margin: 5px 0; font-size: 1.4rem; }
+        .topic-info p { color: var(--text-dim); margin: 0; font-size: 0.95rem; }
+        .btn-explore { background: var(--primary-blue); color: white; padding: 8px 15px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; }
+
+        /* ========== OVERLAYS ========== */
+        .overlay-lab {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at top, #1e1b4b, #020617);
+            z-index: 1000;
+            display: none; 
+            overflow-y: auto;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .lab-container { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
+        .close-lab {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--border-light);
+            color: white; padding: 10px 20px;
+            border-radius: 50px; cursor: pointer;
+            font-weight: 700; margin-bottom: 40px;
+        }
+
+        /* TIMELINE */
+        .timeline-nav {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: 60px 0;
+            padding: 0 20px;
+        }
+        .timeline-line {
+            position: absolute; top: 25px; left: 5%; right: 5%;
+            height: 2px; background: var(--border-light); z-index: 1;
+        }
+        .step-node { position: relative; z-index: 2; text-align: center; cursor: pointer; flex: 1; }
+        .dot {
+            width: 40px; height: 40px; background: #020617;
+            border: 2px solid var(--border-light); border-radius: 50%;
+            margin: 0 auto 10px; display: flex; align-items: center; justify-content: center;
+            font-weight: 800; transition: 0.4s; color: var(--text-dim);
+        }
+        .step-node.active .dot { background: var(--primary-blue); border-color: var(--primary-blue); color: white; box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+        .node-label { font-size: 0.7rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; }
+        .step-node.active .node-label { color: white; }
+
+        .step-content { display: none; animation: fadeIn 0.5s ease; }
+        .step-content.active { display: block; }
+
+        .theory-box { color: var(--text-dim); line-height: 1.8; font-size: 1.1rem; margin-bottom: 30px; }
+        .theory-box strong { color: white; }
+        
+        /* CODE BLOCKS */
+        .code-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+        .code-window { background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+        .code-header { padding: 10px 15px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+        .header-bad { background: #fee2e2; color: #991b1b; }
+        .header-good { background: #dcfce7; color: #166534; }
+        pre { margin: 0; padding: 20px; font-family: 'Fira Code', monospace; font-size: 0.85rem; color: #1f2937; overflow-x: auto; line-height: 1.5; }
+
+        ul.details-list { padding-left: 20px; color: var(--text-dim); }
+        ul.details-list li { margin-bottom: 15px; }
+        ul.details-list strong { color: #fff; }
+
+        @media (max-width: 850px) { .code-comparison { grid-template-columns: 1fr; } .timeline-nav { flex-wrap: wrap; } .timeline-line { display: none; } }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="year2.html" class="exit-link">← EXIT LESSON</a>
+    </nav>
+
+    <header class="hero">
+        <div class="badge">Syllabus</div>
+        <h1>Back-end Path</h1>
+        <p>Expert-led curriculum for modern system design.</p>
+    </header>
+
+    <main class="module-grid">
+        <div class="topic-card locked">
+            <div class="topic-info">
+                <span class="badge">Topic 01</span>
+                <h3>Introduction to Node.js</h3>
+                <p>Environment setup and event loop basics.</p>
+            </div>
+        </div>
+
+        <div class="topic-card" onclick="openLab('lab-overlay-archi')">
+            <div class="topic-info">
+                <span class="badge">Topic 02</span>
+                <h3>System Architecture</h3>
+                <p>DRY, SRP and Clean Code Standards</p>
+            </div>
+            <div class="btn-explore">Explore Lab</div>
+        </div>
+
+        <div class="topic-card" onclick="openLab('lab-overlay-web')">
+            <div class="topic-info">
+                <span class="badge">Topic 03</span>
+                <h3>Web Services & API Design</h3>
+                <p>REST, SOAP, JSON and Design Patterns</p>
+            </div>
+            <div class="btn-explore">Explore Lab</div>
+        </div>
+    </main>
+
+    <div id="lab-overlay-archi" class="overlay-lab">
+        <div class="lab-container">
+            <button class="close-lab" onclick="closeLab('lab-overlay-archi')">✕ Back to Syllabus</button>
+            <h2 style="font-size: 2.5rem;">System Architecture</h2>
+            
+            <nav class="timeline-nav">
+                <div class="timeline-line"></div>
+                <div class="step-node active" onclick="showStep('archi', 0)"><div class="dot">1</div><div class="node-label">Reusability</div></div>
+                <div class="step-node" onclick="showStep('archi', 1)"><div class="dot">2</div><div class="node-label">Clean Code</div></div>
+                <div class="step-node" onclick="showStep('archi', 2)"><div class="dot">3</div><div class="node-label">System Logic</div></div>
+            </nav>
+
+            <div class="steps-content-archi">
+                <div class="step-content active">
+                    <div class="theory-box">
+                        Extract common functionality into reusable components. The <strong>"Rule of Three"</strong> suggests refactoring after the third instance of similar code appears to improve maintainability.
+                    </div>
+                    <div class="code-comparison">
+                        <div class="code-window"><div class="code-header header-bad">Manual Approach (Repetitive)</div><pre><code>dog1_name = "Buddy"
+dog1_age = 3
+dog2_name = "Miles"
+dog2_age = 5</code></pre></div>
+                        <div class="code-window"><div class="code-header header-good">Class (Reusable Component)</div><pre><code>class Dog:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+buddy = Dog("Buddy", 3)</code></pre></div>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <div class="theory-box">
+                        Design each function or class to have only <strong>one reason to change</strong> (SRP - Single Responsibility Principle). This reduces complexity and makes unit testing significantly easier.
+                    </div>
+                    <div class="code-comparison">
+                        <div class="code-window"><div class="code-header header-bad">Complex Function</div><pre><code>def handle_order(order):
+    # Validates AND Saves
+    if len(order) > 0:
+        db.save(order)
+        print("Success")</code></pre></div>
+                        <div class="code-window"><div class="code-header header-good">SRP Refactoring</div><pre><code>def validate(order): 
+    return len(order) > 0
+
+def save_to_db(order): 
+    db.save(order)</code></pre></div>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <div class="theory-box">
+                        Professional standards require eliminating <strong>"Magic Numbers"</strong>. Use named constants to clarify intent and prevent bugs during global modifications.
+                    </div>
+                    <div class="code-comparison">
+                        <div class="code-window"><div class="code-header header-bad">Magic Numbers</div><pre><code>if weight < 5:
+    return 4.99</code></pre></div>
+                        <div class="code-window"><div class="code-header header-good">Named Constants</div><pre><code>SHIPPING_LIMIT = 5
+BASE_RATE = 4.99
+
+if weight < SHIPPING_LIMIT:
+    return BASE_RATE</code></pre></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="lab-overlay-web" class="overlay-lab">
+        <div class="lab-container">
+            <button class="close-lab" onclick="closeLab('lab-overlay-web')">✕ Back to Syllabus</button>
+            <h2 style="font-size: 2.5rem;">Web Services & API Design</h2>
+            
+            <nav class="timeline-nav">
+                <div class="timeline-line"></div>
+                <div class="step-node active" onclick="showStep('web', 0)"><div class="dot">1</div><div class="node-label">Intro & APIs</div></div>
+                <div class="step-node" onclick="showStep('web', 1)"><div class="dot">2</div><div class="node-label">Objectives</div></div>
+                <div class="step-node" onclick="showStep('web', 2)"><div class="dot">3</div><div class="node-label">Protocols</div></div>
+                <div class="step-node" onclick="showStep('web', 3)"><div class="dot">4</div><div class="node-label">REST Principles</div></div>
+                <div class="step-node" onclick="showStep('web', 4)"><div class="dot">5</div><div class="node-label">URI Design</div></div>
+                <div class="step-node" onclick="showStep('web', 5)"><div class="dot">6</div><div class="node-label">Standards & Anti-patterns</div></div>
+            </nav>
+
+            <div class="steps-content-web">
+                <div class="step-content active">
+                    <div class="theory-box">
+                        <strong>What are Web Services?</strong><br>
+                        Web services enable seamless application-to-application communication over the internet, using standard protocols and formats to ensure interoperability regardless of programming language or platform.
+                    </div>
+                    
+                    <div class="theory-box">
+                        <strong>API vs Web Service:</strong><br>
+                        An API (Application Programming Interface) is the interface that allows applications to communicate; a <strong>web service</strong> is a specific type of API accessed over a network.
+                    </div>
+                </div>
+
+                <div class="step-content">
+                    <h3>Primary Objectives</h3>
+                    <ul class="details-list">
+                        <li><strong>Enable Interoperability:</strong> Allow applications built on different platforms (Java, .NET, Python) to exchange data and services seamlessly.</li>
+                        <li><strong>Facilitate Communication:</strong> Provide a standardized way for systems to interact over a network using common protocols like HTTP/HTTPS.</li>
+                        <li><strong>Promote Reusability:</strong> Expose existing functionalities as services that can be reused by multiple client applications.</li>
+                        <li><strong>Integrate Disparate Systems:</strong> Connect internal and third-party applications (payment gateways, mapping services) to create rich solutions.</li>
+                        <li><strong>Ensure Scalability:</strong> Design systems that handle increased demand by loosely coupling components.</li>
+                    </ul>
+                </div>
+
+                <div class="step-content">
+                    <div class="theory-box">
+                        <strong>Styles and Formats:</strong><br>
+                        The choice between REST and SOAP, or JSON and XML, defines the rigidity and performance of your system.
+                    </div>
+                    <div class="code-comparison">
+                        <div class="code-window">
+                            <div class="code-header">JSON Format (Modern)</div>
+                            <pre><code>{
+  "orderId": 1,
+  "status": "pending",
+  "total": 99.99
+}</code></pre>
+                        </div>
+                        <div class="code-window">
+                            <div class="code-header">XML Format (Classic)</div>
+                            <pre><code>&lt;order&gt;
+  &lt;id&gt;1&lt;/id&gt;
+  &lt;status&gt;pending&lt;/status&gt;
+&lt;/order&gt;</code></pre>
+                        </div>
+                    </div>
+                    <div class="theory-box" style="margin-top:20px;">
+                        <strong>REST (Representational State Transfer):</strong> An architectural style that uses standard HTTP methods (GET, POST, PUT, DELETE). It is the de facto standard for modern web services.
+                    </div>
+                </div>
+
+                <div class="step-content">
+                    <h3>Core REST Principles</h3>
+                    <ul class="details-list">
+                        <li><strong>Statelessness:</strong> Each request must contain all the information necessary to be processed. The server stores no client context between requests.</li>
+                        <li><strong>Uniform Interface:</strong> Consistent use of HTTP verbs to manipulate resources.</li>
+                        <li><strong>Loose Coupling:</strong> Client and server can evolve independently as long as the interface remains unchanged.</li>
+                        <li><strong>HATEOAS:</strong> Clients interact with the application through hypermedia links provided dynamically by the server.</li>
+                    </ul>
+                    
+                </div>
+
+                <div class="step-content">
+                    <h3>URI Design (Golden Rules)</h3>
+                    <div class="theory-box">
+                        URIs should be based on <strong>Nouns</strong> (resources) and not on verbs (actions).
+                    </div>
+                    <div class="code-comparison">
+                        <div class="code-window">
+                            <div class="code-header header-bad">❌ BAD DESIGN (Verbs)</div>
+                            <pre><code>GET /getUserDetails
+POST /createNewOrder
+GET /deleteCustomer?id=5</code></pre>
+                        </div>
+                        <div class="code-window">
+                            <div class="code-header header-good">✅ GOOD DESIGN (Nouns + HTTP Verbs)</div>
+                            <pre><code>GET /users/{id}
+POST /orders
+DELETE /customers/5</code></pre>
+                        </div>
+                    </div>
+                    <div class="theory-box" style="margin-top:20px;">
+                        Use plural nouns for collections (<code>/customers</code>) and hierarchical paths for relationships (<code>/customers/5/orders</code>).
+                    </div>
+                </div>
+
+                <div class="step-content">
+                    <h3>Professional Standards & Anti-patterns</h3>
+                    <ul class="details-list">
+                        <li><strong>Avoid "Chatty" APIs:</strong> Do not create too many small resources that force the client to make multiple requests for a single action (Chatty I/O).</li>
+                        <li><strong>Database Abstraction:</strong> The API should NOT mirror your internal database structure. Introduce a mapping layer to isolate the client from schema changes.</li>
+                        <li><strong>Pseudo-resources:</strong> For non-resource operations (e.g., a calculator), use functional URIs sparingly.</li>
+                    </ul>
+                    <div class="code-window">
+                        <div class="code-header">Pseudo-resource Example</div>
+                        <pre><code>GET /calculate/add?op1=10&op2=20 -> 200 OK (Body: 30)</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openLab(id) {
+            document.getElementById(id).style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLab(id) {
+            document.getElementById(id).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function showStep(type, index) {
+            const containerClass = type === 'archi' ? '.steps-content-archi' : '.steps-content-web';
+            const overlayId = type === 'archi' ? 'lab-overlay-archi' : 'lab-overlay-web';
+            
+            // Update Navigation
+            const nodes = document.querySelectorAll(`#${overlayId} .step-node`);
+            nodes.forEach((node, i) => {
+                if(i === index) node.classList.add('active');
+                else node.classList.remove('active');
+            });
+
+            // Update Content
+            const contents = document.querySelectorAll(`${containerClass} .step-content`);
+            contents.forEach((content, i) => {
+                if(i === index) content.classList.add('active');
+                else content.classList.remove('active');
+            });
+        }
+    </script>
+</body>
+</html>

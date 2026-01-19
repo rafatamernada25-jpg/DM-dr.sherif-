@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 3 | HTTP Requests</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #ec4899;
+            --soft-pink: #fbcfe8;
+            --bg: #0f172a; 
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --border: rgba(236, 72, 153, 0.2);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at top, #1e1b4b 0%, #030014 100%);
+            color: #f1f5f9;
+            display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh;
+        }
+
+        header { text-align: center; padding: 40px 5% 20px; width: 100%; }
+        h1 { font-size: 2.5rem; font-weight: 800; text-transform: uppercase; background: linear-gradient(to right, #fff, var(--primary-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .summary-box { max-width: 800px; margin: 0 auto 30px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); padding: 20px; border-radius: 15px; font-size: 0.95rem; line-height: 1.6; }
+
+        /* NAVIGATION (STEPPER) */
+        .stepper { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .step { cursor: pointer; opacity: 0.4; transition: 0.3s; text-align: center; width: 85px; }
+        .step.active { opacity: 1; }
+        .circle { width: 45px; height: 45px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-weight: 800; background: rgba(255,255,255,0.05); margin: 0 auto 8px; transition: 0.3s; }
+        .step.active .circle { border-color: var(--primary-pink); background: var(--primary-pink); box-shadow: 0 0 20px rgba(236, 72, 153, 0.4); }
+        .step-label { font-size: 0.65rem; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; }
+
+        /* CONTENT CONTAINERS */
+        .content-container { width: 90%; max-width: 850px; padding-bottom: 100px; }
+        .content-panel { display: none; animation: fadeIn 0.4s ease-out; background: var(--card-bg); padding: 40px; border-radius: 25px; border: 1px solid var(--border); backdrop-filter: blur(12px); }
+        .content-panel.active { display: block; }
+
+        .bp-card { background: rgba(255, 255, 255, 0.03); padding: 20px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 20px; }
+        .analogy-box { background: rgba(236, 72, 153, 0.08); border-left: 4px solid var(--primary-pink); padding: 20px; border-radius: 8px; margin-top: 20px; line-height: 1.6; }
+        
+        h2 { color: #fff; border-bottom: 1px solid var(--border); padding-bottom: 15px; margin-bottom: 25px; font-weight: 800; }
+        h3 { margin-top: 0; font-size: 1.2rem; margin-bottom: 10px; }
+        b { color: var(--primary-pink); }
+
+        /* CODE BLOCKS */
+        .code-window { background: #020617; padding: 20px; border-radius: 12px; border: 1px solid var(--border); font-family: 'Fira Code', monospace; font-size: 0.9rem; overflow-x: auto; margin: 20px 0; }
+        .kw { color: #f472b6; } .fn { color: #60a5fa; } .str { color: #34d399; } .comment { color: #64748b; font-style: italic; }
+
+        /* CHECKLIST */
+        .checklist-item { display: flex; align-items: center; gap: 12px; background: rgba(16, 185, 129, 0.05); padding: 15px; border-radius: 12px; margin-bottom: 10px; border: 1px solid rgba(16, 185, 129, 0.1); }
+        .check-icon { color: var(--success); font-weight: bold; font-size: 1.2rem; }
+
+       /* STYLES FOR BUTTONS AND BOXES */
+    .quiz-actions { display: flex; gap: 10px; margin-top: 15px; }
+    
+    .small-action-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border);
+        color: #fff;
+        padding: 8px 15px;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .small-action-btn:hover { background: var(--primary-pink); border-color: var(--primary-pink); }
+
+    .hint-text, .corr-text {
+        display: none;
+        margin-top: 15px;
+        padding: 15px;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+    .hint-text { background: rgba(245, 158, 11, 0.1); border-left: 4px solid var(--warning); color: #fcd34d; }
+    .corr-text { background: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--success); color: #6ee7b7; }
+
+        /* QUIZ */
+        .question-card { margin-bottom: 30px; padding: 25px; border-radius: 20px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); }
+        .option-btn { width: 100%; text-align: left; padding: 15px; margin-bottom: 10px; border-radius: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; cursor: pointer; transition: 0.2s; font-family: inherit; font-size: 1rem; }
+        .option-btn:hover { background: rgba(255,255,255,0.1); }
+        .option-btn.selected { border-color: var(--primary-pink); background: rgba(236, 72, 153, 0.15); box-shadow: inset 0 0 10px rgba(236, 72, 153, 0.1); }
+        .submit-btn { width: 100%; padding: 20px; background: var(--primary-pink); border: none; border-radius: 12px; color: #fff; font-weight: 800; cursor: pointer; margin-top: 20px; font-size: 1.1rem; transition: 0.3s; }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(236, 72, 153, 0.4); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1><span style="opacity: 0.6; font-size: 1.2rem; display: block; color: #fff; letter-spacing: 2px;">LESSON 03 /</span> MASTERING HTTP REQUESTS</h1>
+    <div class="summary-box">
+        The most critical architectural decision when making HTTP requests is determining how the code waits for the response.
+    </div>
+</header>
+
+<div class="stepper">
+    <div class="step active" onclick="showStep(1, this)"><div class="circle">1</div><div class="step-label">Flow</div></div>
+    <div class="step" onclick="showStep(2, this)"><div class="circle">2</div><div class="step-label">Methods</div></div>
+    <div class="step" onclick="showStep(3, this)"><div class="circle">3</div><div class="step-label">Data</div></div>
+    <div class="step" onclick="showStep(4, this)"><div class="circle">4</div><div class="step-label">Errors</div></div>
+    <div class="step" onclick="showStep(5, this)"><div class="circle">5</div><div class="step-label">QUIZ</div></div>
+</div>
+
+<div class="content-container">
+
+    <div class="content-panel active" id="step1">
+        <h2>1. Execution Flow: Synchronous vs. Asynchronous</h2>
+        
+        
+
+        <div class="bp-card">
+            <h3 style="color: var(--primary-pink);">Synchronous Execution (Blocking)</h3>
+            <p>The code runs sequentially. When an HTTP request is made, the program <b>halts and waits</b> for the server to respond before moving to the next line.</p>
+            <p><b>Behavior:</b> The UI may freeze or the browser may become unresponsive until the data arrives.</p>
+        </div>
+
+        <div class="bp-card">
+            <h3 style="color: var(--success);">Asynchronous Execution (Non-Blocking)</h3>
+            <p>The code initiates the request and <b>immediately continues</b> executing the next lines without waiting for the server.</p>
+            <p><b>Behavior:</b> Uses patterns like "async/await" to handle data later. The UI remains responsive.</p>
+        </div>
+
+        <div class="analogy-box">
+            <strong>☕ The Coffee Analogy:</strong><br><br>
+            <strong>Sync:</strong> Ordering coffee and standing at the counter staring at the barista until they hand it to you. You can't do anything else.<br><br>
+            <strong>Async:</strong> Ordering, getting a buzzer (Promise), sitting down to read a book, and returning only when it rings.
+        </div>
+    </div>
+
+    <div class="content-panel" id="step2">
+        <h2>2. Data Retrieval and Methods</h2>
+        <p>Once a request is sent, the goal is to retrieve data and make it usable for the application.</p>
+        
+        
+
+        <h3>The Request Methods (Verbs)</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
+            <div class="bp-card" style="margin:0;"><b>GET:</b> Retrieve data</div>
+            <div class="bp-card" style="margin:0;"><b>POST:</b> Send new data</div>
+            <div class="bp-card" style="margin:0;"><b>PUT:</b> Update data</div>
+            <div class="bp-card" style="margin:0;"><b>DELETE:</b> Remove data</div>
+        </div>
+
+        <h3>The Payload and Headers</h3>
+        <div class="bp-card">
+            <p><b>Headers:</b> Meta-data sent with the request (e.g., <i>Content-Type: application/json</i>).</p>
+            <p><b>Body:</b> The actual data being sent (used in POST/PUT).</p>
+        </div>
+    </div>
+
+    <div class="content-panel" id="step3">
+        <h2>3. Processing the Response</h2>
+        <p>Raw data usually arrives as a <b>string stream</b>. You must parse it into a native data structure.</p>
+        
+        <div class="bp-card">
+            <p><b>JSON (JavaScript Object Notation):</b> The industry standard. Text easily converted into objects.</p>
+            <p><b>XML:</b> Older, more verbose, tag-based format.</p>
+        </div>
+
+        <h3>Example (JavaScript/Fetch):</h3>
+        <div class="code-window">
+<span class="kw">async function</span> <span class="fn">fetchData</span>() {
+  <span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://api.example.com/data'</span>);
+  <span class="kw">const</span> data = <span class="kw">await</span> response.<span class="fn">json</span>(); <span class="comment">// Parsing step</span>
+  console.<span class="fn">log</span>(data);
+}</div>
+    </div>
+
+    <div class="content-panel" id="step4">
+        <h2>4. Error Handling & Summary</h2>
+        <p>Networks are unreliable. A robust application assumes requests will fail eventually and plans for it.</p>
+        
+        
+
+        <h3>HTTP Status Codes</h3>
+        <div class="bp-card">
+            <p><b style="color: var(--success);">2xx (Success):</b> Everything worked (e.g., 200 OK).</p>
+            <p><b style="color: var(--warning);">4xx (Client Error):</b> You made a mistake (e.g., 404 Not Found).</p>
+            <p><b style="color: var(--error);">5xx (Server Error):</b> The server crashed (e.g., 500 Internal Error).</p>
+        </div>
+
+        <h3>Summary Checklist</h3>
+        <div class="checklist-item">
+            <span class="check-icon">✓</span>
+            <div><b>Async over Sync:</b> Keep apps responsive.</div>
+        </div>
+        <div class="checklist-item">
+            <span class="check-icon">✓</span>
+            <div><b>Parse Correctly:</b> Match Content-Type with the parser.</div>
+        </div>
+        <div class="checklist-item">
+            <span class="check-icon">✓</span>
+            <div><b>Handle Errors:</b> Handle 404s and 500s specifically.</div>
+        </div>
+    </div>
+
+    <div class="content-panel" id="step5">
+        <h2>5. Final Assessment</h2>
+        <p style="margin-bottom: 25px; opacity: 0.8;">Test your technical expertise. Hints and corrections will guide your learning.</p>
+
+        <div class="question-card" data-ans="D">
+            <p><b>1. Analyze this code:</b><br>
+            <code style="color:#ec4899">const response = fetch('api/data'); console.log(response);</code><br>
+            <b>Why will the console show "Promise {pending}" instead of the data?</b></p>
+            <button class="option-btn" onclick="selectOpt(this, 'A')">A) The URL is incorrect</button>
+            <button class="option-btn" onclick="selectOpt(this, 'B')">B) The server is offline</button>
+            <button class="option-btn" onclick="selectOpt(this, 'C')">C) You must use JSON.parse()</button>
+            <button class="option-btn" onclick="selectOpt(this, 'D')">D) The 'await' keyword is missing before fetch</button>
+          <div class="quiz-actions">
+            <button class="small-action-btn" onclick="toggleElement(this, 'hint')">Show Hint 💡</button>
+            <button class="small-action-btn" onclick="toggleElement(this, 'corr')">Show Correction ✅</button>
+        </div>
+        <p class="hint-text"><b>Hint:</b> Fetch is asynchronous. Without instructions to wait, JS moves to the next line immediately.</p>
+        <p class="corr-text"><b>Correction:</b> You are logging the Promise object itself. You must 'await' the fetch to get the actual Response.</p>
+    </div>
+    
+        <div class="question-card" data-ans="C">
+            <p><b>2. You send POST data but the server doesn't read it. What is likely missing?</b></p>
+            <button class="option-btn" onclick="selectOpt(this, 'A')">A) A Wi-Fi connection</button>
+            <button class="option-btn" onclick="selectOpt(this, 'B')">B) The 'await' keyword</button>
+            <button class="option-btn" onclick="selectOpt(this, 'C')">C) 'Content-Type: application/json' header</button>
+            <button class="option-btn" onclick="selectOpt(this, 'D')">D) A GET method</button>
+           <div class="quiz-actions">
+            <button class="small-action-btn" onclick="toggleElement(this, 'hint')">Show Hint 💡</button>
+            <button class="small-action-btn" onclick="toggleElement(this, 'corr')">Show Correction ✅</button>
+        </div>
+        <p class="hint-text"><b>Hint:</b> The server needs to know how to interpret the raw bytes you sent in the body.</p>
+        <p class="corr-text"><b>Correction:</b> Headers tell the server the format of your data so it can parse it correctly.</p>
+    </div>
+    
+        <div class="question-card" data-ans="D">
+            <p><b>3. Why check 'response.ok' before calling '.json()'?</b></p>
+            <button class="option-btn" onclick="selectOpt(this, 'A')">A) To clear the cache</button>
+            <button class="option-btn" onclick="selectOpt(this, 'B')">B) To secure passwords</button>
+            <button class="option-btn" onclick="selectOpt(this, 'C')">C) To make it run synchronously</button>
+            <button class="option-btn" onclick="selectOpt(this, 'D')">D) To handle 404/500 errors before reading the body</button>
+          <div class="quiz-actions">
+            <button class="small-action-btn" onclick="toggleElement(this, 'hint')">Show Hint 💡</button>
+            <button class="small-action-btn" onclick="toggleElement(this, 'corr')">Show Correction ✅</button>
+        </div>
+        <p class="hint-text"><b>Hint:</b> If a server crashes, the body usually contains HTML error text, not the JSON you expect.</p>
+        <p class="corr-text"><b>Correction:</b> Parsing an error page as JSON will crash your app. Always verify success first.</p>
+    </div>
+
+        <div class="question-card" data-ans="A">
+            <p><b>4. Which HTTP method is used to retrieve a list of products?</b></p>
+            <button class="option-btn" onclick="selectOpt(this, 'A')">A) GET</button>
+            <button class="option-btn" onclick="selectOpt(this, 'B')">B) POST</button>
+            <button class="option-btn" onclick="selectOpt(this, 'C')">C) DELETE</button>
+            <button class="option-btn" onclick="selectOpt(this, 'D')">D) PATCH</button>
+          <div class="quiz-actions">
+            <button class="small-action-btn" onclick="toggleElement(this, 'hint')">Show Hint 💡</button>
+            <button class="small-action-btn" onclick="toggleElement(this, 'corr')">Show Correction ✅</button>
+        </div>
+        <p class="hint-text"><b>Hint:</b> Think of the verb used for "getting" information without changing it.</p>
+        <p class="corr-text"><b>Correction:</b> GET is the standard method for retrieving resources from a server.</p>
+    </div>
+
+        <div class="question-card" data-ans="D">
+            <p><b>5. What does an error code starting with 5 (e.g., 503) indicate?</b></p>
+            <button class="option-btn" onclick="selectOpt(this, 'A')">A) Total Success</button>
+            <button class="option-btn" onclick="selectOpt(this, 'B')">B) The user typed a wrong URL</button>
+            <button class="option-btn" onclick="selectOpt(this, 'C')">C) Redirect</button>
+            <button class="option-btn" onclick="selectOpt(this, 'D')">D) The server encountered an internal problem</button>
+           <div class="quiz-actions">
+            <button class="small-action-btn" onclick="toggleElement(this, 'hint')">Show Hint 💡</button>
+            <button class="small-action-btn" onclick="toggleElement(this, 'corr')">Show Correction ✅</button>
+        </div>
+        <p class="hint-text"><b>Hint:</b> 4xx is Client-side, 5xx is...</p>
+        <p class="corr-text"><b>Correction:</b> 5xx codes mean the server failed to process a valid request (crash or maintenance).</p>
+    </div>
+
+        <div class="question-card" data-ans="D">
+            <p><b>6. What is the primary benefit of the Asynchronous model?</b></p>
+            <button class="option-btn" onclick="selectOpt(this, 'A')">A) Easier to write</button>
+            <button class="option-btn" onclick="selectOpt(this, 'B')">B) Uses less battery</button>
+            <button class="option-btn" onclick="selectOpt(this, 'C')">C) It blocks the user</button>
+            <button class="option-btn" onclick="selectOpt(this, 'D')">D) It keeps the interface fluid during loading</button>
+            <div class="quiz-actions">
+            <button class="small-action-btn" onclick="toggleElement(this, 'hint')">Show Hint 💡</button>
+            <button class="small-action-btn" onclick="toggleElement(this, 'corr')">Show Correction ✅</button>
+        </div>
+        <p class="hint-text"><b>Hint:</b> Think about being able to scroll while data is being fetched.</p>
+        <p class="corr-text"><b>Correction:</b> Async execution is "non-blocking", allowing the UI to stay responsive.</p>
+    </div>
+
+        <div class="question-card" data-ans="C">
+            <p><b>7. Where should sensitive information like Tokens be placed?</b></p>
+            <button class="option-btn" onclick="selectOpt(this, 'A')">A) In the visible URL</button>
+            <button class="option-btn" onclick="selectOpt(this, 'B')">B) In the file name</button>
+            <button class="option-btn" onclick="selectOpt(this, 'C')">C) In the Headers</button>
+            <button class="option-btn" onclick="selectOpt(this, 'D')">D) Never send them</button>
+          <div class="quiz-actions">
+            <button class="small-action-btn" onclick="toggleElement(this, 'hint')">Show Hint 💡</button>
+            <button class="small-action-btn" onclick="toggleElement(this, 'corr')">Show Correction ✅</button>
+        </div>
+        <p class="hint-text"><b>Hint:</b> You want to avoid showing credentials in the browser's address bar.</p>
+        <p class="corr-text"><b>Correction:</b> Headers are the secure, standard way to pass authentication metadata.</p>
+    </div>
+
+        <div class="question-card" data-ans="C">
+            <p><b>8. Which data format is most used by Web APIs today?</b></p>
+            <button class="option-btn" onclick="selectOpt(this, 'A')">A) Plain Text (.txt)</button>
+            <button class="option-btn" onclick="selectOpt(this, 'B')">B) Excel</button>
+            <button class="option-btn" onclick="selectOpt(this, 'C')">C) JSON</button>
+            <button class="option-btn" onclick="selectOpt(this, 'D')">D) XML</button>
+            <div class="quiz-actions">
+            <button class="small-action-btn" onclick="toggleElement(this, 'hint')">Show Hint 💡</button>
+            <button class="small-action-btn" onclick="toggleElement(this, 'corr')">Show Correction ✅</button>
+        </div>
+        <p class="hint-text"><b>Hint:</b> It stands for JavaScript Object Notation.</p>
+        <p class="corr-text"><b>Correction:</b> JSON is faster and easier to parse than XML in modern environments.</p>
+    </div>
+
+        <div class="question-card" data-ans="A">
+            <p><b>9. In a Try/Catch block, what does the 'Catch' section do?</b></p>
+            <button class="option-btn" onclick="selectOpt(this, 'A')">A) Runs only if an error occurs</button>
+            <button class="option-btn" onclick="selectOpt(this, 'B')">B) Deletes the data</button>
+            <button class="option-btn" onclick="selectOpt(this, 'C')">C) Retries the request automatically</button>
+            <button class="option-btn" onclick="selectOpt(this, 'D')">D) Ignores the error</button>
+            <div class="quiz-actions">
+            <button class="small-action-btn" onclick="toggleElement(this, 'hint')">Show Hint 💡</button>
+            <button class="small-action-btn" onclick="toggleElement(this, 'corr')">Show Correction ✅</button>
+        </div>
+        <p class="hint-text"><b>Hint:</b> It acts as a "fallback" when the 'Try' block fails.</p>
+        <p class="corr-text"><b>Correction:</b> Catch handles exceptions (like no internet) to prevent the whole app from crashing.</p>
+    </div>
+
+        <div class="question-card" data-ans="A">
+            <p><b>10. What does a server physically send back?</b></p>
+            <button class="option-btn" onclick="selectOpt(this, 'A')">A) A string stream</button>
+            <button class="option-btn" onclick="selectOpt(this, 'B')">B) A living JS object</button>
+            <button class="option-btn" onclick="selectOpt(this, 'C')">C) A compressed folder</button>
+            <button class="option-btn" onclick="selectOpt(this, 'D')">D) A database image</button>
+           <div class="quiz-actions">
+            <button class="small-action-btn" onclick="toggleElement(this, 'hint')">Show Hint 💡</button>
+            <button class="small-action-btn" onclick="toggleElement(this, 'corr')">Show Correction ✅</button>
+        </div>
+        <p class="hint-text"><b>Hint:</b> Everything on the web travels as raw text that needs to be parsed.</p>
+        <p class="corr-text"><b>Correction:</b> Data travels as a stream of characters. `.json()` turns that text into an object.</p>
+    </div>
+
+        <button class="submit-btn" onclick="checkQuiz()">CHECK RESULTS</button>
+        <div id="quiz-result" style="margin-top:20px; text-align:center; font-weight:800; font-size: 1.5rem;"></div>
+    </div>
+</div>
+
+<script>
+    // Toggle Hint or Correction Visibility
+   function toggleElement(btn, type) {
+        const card = btn.closest('.question-card');
+        const target = type === 'hint' ? card.querySelector('.hint-text') : card.querySelector('.corr-text');
+        const isVisible = target.style.display === 'block';
+        
+        target.style.display = isVisible ? 'none' : 'block';
+        btn.innerText = isVisible 
+            ? (type === 'hint' ? 'Show Hint 💡' : 'Show Correction ✅')
+            : (type === 'hint' ? 'Hide Hint 💡' : 'Hide Correction ✅');
+    }
+
+    // Question Selection
+    function showStep(n, el) {
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        el.classList.add('active');
+        document.querySelectorAll('.content-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('step' + n).classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    function selectOpt(btn, choice) {
+        const card = btn.closest('.question-card');
+        card.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        card.dataset.userChoice = choice;
+    }
+
+    function checkQuiz() {
+        let score = 0;
+        const questions = document.querySelectorAll('.question-card');
+        
+        questions.forEach(q => {
+            const hint = q.querySelector('.hint-text');
+            const corr = q.querySelector('.corr-text');
+            
+            if(q.dataset.userChoice === q.dataset.ans) {
+                score++;
+                if(corr) corr.style.display = 'block';
+                if(hint) hint.style.display = 'none';
+            } else {
+                if(hint) hint.style.display = 'block';
+                if(corr) corr.style.display = 'none';
+            }
+        });
+        
+        const resDiv = document.getElementById('quiz-result');
+        resDiv.innerText = `Final Score: ${score} / ${questions.length}`;
+        resDiv.style.color = score === questions.length ? 'var(--success)' : 'var(--primary-pink)';
+    }
+</script>
+</body>
+</html>

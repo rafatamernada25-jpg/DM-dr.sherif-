@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year 1 - Digital Marketing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #030712;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-cyan: #06b6d4;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background: radial-gradient(circle at top right, #1e1b4b, #030712);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ========== NAVBAR ========== */
+        .navbar {
+            padding: 20px 5%;
+            background: rgba(3, 7, 18, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .site-logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            border: 2px solid var(--accent-blue);
+            object-fit: cover;
+        }
+
+        /* ========== HERO ========== */
+        .hero {
+            text-align: center;
+            padding: 80px 5% 40px;
+            background: linear-gradient(to bottom, rgba(139, 92, 246, 0.1), transparent);
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+    
+
+        /* ========== MODULE GRID ========== */
+        .year1-container {
+            padding: 20px 5% 100px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .course-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-purple);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(139, 92, 246, 0.1);
+        }
+
+        .card-image {
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .course-card:hover .card-image img { transform: scale(1.1); }
+
+        .card-content { padding: 25px; }
+
+        .module-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--accent-purple);
+            font-size: 0.75rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .card-content h3 { font-size: 1.5rem; margin-bottom: 10px; color: #fff; }
+        .card-content p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.6; }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--accent-purple);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .back-link:hover { opacity: 0.8; transform: translateX(-5px); }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.8rem; }
+            .semester-picker { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <img src="logo.jpeg" alt="Logo" class="site-logo">
+        <h2 style="color: white; font-weight: 800; font-size: 1.2rem;">Digital Marketing</h2>
+    </nav>
+
+    <header class="hero">
+        <a href="index.html" class="back-link">← BACK TO CURRICULUM</a>
+        <h1>Year 1</h1>
+        <p>Master the blueprint of advanced ecosystems. Architecture, scaling, and professional data management.</p>
+        
+    </header>
+
+    <section class="year1-container">
+        <div class="course-grid">
+            
+            <a href="backend layla.html" class="course-card">
+                <div class="course-card backend">
+                    <div class="card-image">
+                        <img src="backend.jpg" alt="Data Modelling">
+                </div>
+                <div class="card-content">
+                    <span class="module-tag">Module 01</span>
+                    <h3>Data Modelling</h3>
+                    <p>Design efficient database structures and "blueprints" for complex backend systems.</p>
+                </div>
+            </div>
+            </a>
+
+            <a href="frontend layla.html" class="course-card">
+                <div class="course-card frontend">
+                    <div class="card-image">
+                        <img src="front-end.jpg" alt="Advanced APIs">
+                </div>
+                <div class="card-content">
+                    <span class="module-tag">Module 02</span>
+                    <h3>Advanced APIs</h3>
+                    <p>Build scalable microservices and manage complex data flows between systems.</p>
+                </div>
+                </div>
+            </a>
+
+            <a href="webdevelopment layla.html" class="course-card">
+                <div class="course-card webdev">
+                    <div class="card-image">
+                         <img src="web-development.jpg" alt="Security">web-development.jp
+                </div>
+                <div class="card-content">
+                    <span class="module-tag">Module 03</span>
+                    <h3>Security & Performance</h3>
+                    <p>Implement enterprise-grade encryption and optimize server response times.</p>
+                </div>
+                </div>
+            </a>
+
+            <a href="frontend layla.html" class="course-card">
+                <div class="course-card frontend">
+                    <div class="card-image">
+                        <img src="front-end.jpg" alt="Advanced APIs">
+                </div>
+                <div class="card-content">
+                    <span class="module-tag">Module 02</span>
+                    <h3>Advanced APIs</h3>
+                    <p>Build scalable microservices and manage complex data flows between systems.</p>
+                </div>
+                </div>
+            </a>
+
+        </div>
+    </section>
+
+</body>
+</html>

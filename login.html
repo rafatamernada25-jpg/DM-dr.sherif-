@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Faculty Portal — Secure Access</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="login.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav__container">
+      <a href="#" class="nav__logo">
+        <img src="short logo PS.png" alt="Digital Marketing" style="width: 80px; height: auto;">Digital Marketing
+      </a>
+    </div>
+  </nav>
+
+  <!-- Login Section with Integrated Features -->
+  <section id="login" class="login-section">
+    <div class="login-bg-decor">
+      <img src="https://static.vecteezy.com/system/resources/previews/036/285/151/non_2x/abstract-blue-circuit-board-technology-futuristic-connection-system-digital-data-and-high-tech-technology-geometric-design-on-dark-blue-background-illustration-vector.jpg" 
+           class="bg-image" alt="">
+      <img src="https://static.vecteezy.com/system/resources/previews/022/828/021/non_2x/abstract-futuristic-circuit-board-high-computer-technology-blue-color-background-hi-tech-digital-technology-concept-illustration-vector.jpg" 
+           class="bg-image" alt="">
+      <img src="https://as2.ftcdn.net/jpg/11/04/00/21/1000_F_1104002136_Jg9AfOL9WUmFgn7xfDE7U3ytzNO1TJMt.jpg" 
+           class="bg-image" alt="">
+      <img src="https://static.vecteezy.com/system/resources/previews/071/272/886/non_2x/abstract-blue-background-with-gradient-geometric-squares-and-rectangles-creating-a-modern-stylish-layout-ideal-for-business-presentations-covers-posters-banners-and-digital-projects-vector.jpg" 
+           class="bg-image" alt="">
+    </div>
+
+    <div class="login-section__container">
+      <div class="login-grid">
+
+        <!-- Left side - 3 cards -->
+        <div class="feature-card-small">
+          <div class="feature-card-small__icon">📤</div>
+          <h3 class="feature-card-small__title">Easy Upload</h3>
+          <p class="feature-card-small__description">
+            Upload PDFs, videos, documents, and images directly to your course library.
+          </p>
+        </div>
+      
+        <div class="feature-card-small">
+          <div class="feature-card-small__icon">📚</div>
+          <h3 class="feature-card-small__title">Organize Materials</h3>
+          <p class="feature-card-small__description">
+            Create courses, chapters, and topics. Keep everything structured and easy to find.
+          </p>
+        </div>
+
+        <div class="feature-card-small">
+          <div class="feature-card-small__icon">👥</div>
+          <h3 class="feature-card-small__title">Student Access</h3>
+          <p class="feature-card-small__description">
+            Share materials directly with your students. Control access permissions.
+          </p>
+        </div>
+
+        <!-- Center - Login Card -->
+        <div class="auth-center">
+          <div class="auth">
+            <div class="auth__card">
+              <header class="auth__header">
+                <img src="short logo PS.png" alt="Digital Marketing" style="width: 80px; height: auto; margin: 0 auto 10px;">
+                <h1>Faculty Login</h1>
+                <p class="auth__subtitle">Enter your credentials to access your portal</p>
+              </header>
+
+              <form id="loginForm" class="form" novalidate>
+                <div class="field">
+                  <label for="username">Username</label>
+                  <select id="username" name="username" required>
+                    <option value="" disabled selected>Select your name</option>
+                    <option value="Dr.Sherif">Dr. Sherif</option>
+                    <option value="Dr.Hanan">Dr. Hanan</option>
+                    <option value="Dr.Norhane">Dr. Norhane</option>
+                    <option value="Dr.Asmaa Al-Sharif">Dr. Asmaa Al-Sharif</option>
+                    <option value="Dr.Asmaa Abd-elmajid">Dr. Asmaa Abd-elmajid</option>
+                    <option value="Dr.Samuel">Dr. Samuel</option>
+                    <option value="Dr.Reem">Dr. Reem</option>
+                    <option value="Dr.Farid">Dr. Farid</option>
+                    <option value="Dr.Khaled">Dr. Khaled</option>
+                    <option value="Dr.Merielle">Dr. Merielle</option>
+                    <option value="Dr.Manal">Dr. Manal</option>
+                    <option value="Dr.Ehab">Dr. Ehab</option>
+                    <option value="Dr.Maan">Dr. Maan</option>
+                    <option value="Dr.Mario">Dr. Mario</option>
+                    <option value="Dr.Mohamed">Dr. Mohamed</option>
+                    <option value="Dr.Gihane">Dr. Gihane</option>
+                    <option value="Dr.Soheir">Dr. Soheir</option>
+                    <option value="Dr.Donia">Dr. Donia</option>
+                    <option value="Dr.Hesham">Dr. Hesham</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="password">Password</label>
+                  <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Enter your password" />
+                </div>
+
+                <div id="message" class="message" aria-live="polite"></div>
+
+                <button class="btn" type="submit">Sign In</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right side - 3 cards -->
+        <div class="feature-card-small">
+          <div class="feature-card-small__icon">📊</div>
+          <h3 class="feature-card-small__title">Analytics</h3>
+          <p class="feature-card-small__description">
+            Track views, downloads, and time spent on each resource.
+          </p>
+        </div>
+
+        <div class="feature-card-small">
+          <div class="feature-card-small__icon">🔒</div>
+          <h3 class="feature-card-small__title">Secure Platform</h3>
+          <p class="feature-card-small__description">
+            Enterprise-grade security. Control who sees what and when.
+          </p>
+        </div>
+
+        <div class="feature-card-small">
+          <div class="feature-card-small__icon">⚡</div>
+          <h3 class="feature-card-small__title">Fast & Reliable</h3>
+          <p class="feature-card-small__description">
+            Lightning-fast uploads. Materials always available when needed.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__container">
+      <div class="footer__bottom">
+        <p class="footer__copyright">© 2026 Digital Marketing Teaching Platform. All rights reserved.</p>
+        <div class="footer__social">
+          <a href="#" aria-label="Twitter">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="LinkedIn">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="Email">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Card 3D tilt effect -->
+  <script>
+    const card = document.querySelector('.auth__card');
+    
+    if (card) {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const midX = rect.width / 2;
+        const midY = rect.height / 2;
+        
+        const rotateY = ((x - midX) / midX) * 8;
+        const rotateX = -((y - midY) / midY) * 8;
+        
+        card.style.setProperty('--rx', rotateX + 'deg');
+        card.style.setProperty('--ry', rotateY + 'deg');
+        card.style.setProperty('--mx', (x / rect.width) * 100 + '%');
+        card.style.setProperty('--my', (y / rect.height) * 100 + '%');
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        card.style.setProperty('--rx', '0deg');
+        card.style.setProperty('--ry', '0deg');
+        card.style.setProperty('--mx', '50%');
+        card.style.setProperty('--my', '50%');
+      });
+    }
+  </script>
+
+  <!-- Scroll to top on load -->
+  <script>
+    window.onload = function () {
+      window.scrollTo(0, 0);
+    };
+  </script>
+
+  <!-- Authentication script - handles login validation and redirect -->
+  <script src="auth.js"></script>
+</body>
+</html>
