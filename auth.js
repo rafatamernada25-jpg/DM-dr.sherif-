@@ -2,7 +2,7 @@
 // NOTE: This is a front-end demo. Do NOT store real credentials in client-side code.
 
 const facultyCredentials = [
-  { username: 'Dr.Sherif', password: 'Sherif@123', redirectURL: 'index.html' },
+  { username: 'Dr.Sherif', password: 'Sherif@123', redirectURL: 'HP(dr.sherif).html' },
   { username: 'Dr.Hanan', password: 'Hanan@123', redirectURL: '' },
   { username: 'Dr.Norhane', password: 'Norhane@123', redirectURL: '' },
   { username: 'Dr.Asmaa Al-Sharif', password: 'AsmaaSH@123', redirectURL: '' },
@@ -66,3 +66,4 @@ function validateFacultyCredentials(username, password) {
     }, 120);
   });
 })();
+
